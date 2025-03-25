@@ -1,0 +1,17 @@
+server:
+  port: 38080
+
+spring:
+  datasource:
+    url: jdbc:mysql://10.1.1.10:3306/ias?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+    username: root
+    password: pl,okmijn
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5       # 连接池中的最小空闲连接数
+      maximum-pool-size: 20  # 连接池的最大连接数
+      idle-timeout: 30000    # 连接最大空闲时间（毫秒）
+      max-lifetime: 1800000  # 连接的最大生命周期（毫秒），超时后自动关闭
+      connection-timeout: 30000  # 连接超时时间（毫秒）
+      pool-name: HikariCP-Pool  # 连接池名称
+
