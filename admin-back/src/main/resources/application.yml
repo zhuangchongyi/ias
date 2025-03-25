@@ -1,0 +1,6 @@
+server:
+  port: 38080
+
+spring:
+  application:
+    name: IA-System-Admin
