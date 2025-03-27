@@ -1,10 +1,8 @@
-package com.zcy.ias;
+package com.zcy;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan("com.zcy.**.mapper")
 @SpringBootApplication
 public class IASystemApplication {
 

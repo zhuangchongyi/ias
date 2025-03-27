@@ -1,8 +1,61 @@
+# 开发环境配置
 server:
+  # 服务器的HTTP端口，默认为8080
   port: 38080
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # 连接数满后的排队数，默认为100
+    accept-count: 1000
+    threads:
+      # tomcat最大线程数，默认为200
+      max: 800
+      # Tomcat启动初始化的线程数，默认值10
+      min-spare: 100
 
 spring:
   application:
     name: IA-System-Admin
   profiles:
     active: dev
+
+
+#mybatis plus 设置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  type-aliases-package: com.zcy.**.entity
+  global-config:
+    db-config:
+      #主键类型
+      id-type: AUTO
+  configuration:
+    # 返回类型为Map,显示null对应的字段
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: FULL
+
+
+# 用户配置
+user:
+  password:
+    # 密码最大错误次数
+    maxRetryCount: 5
+    # 密码锁定时间（默认10分钟）
+    lockTime: 10
+  # token配置
+  token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: n6gthebe4NtLjbFFqWpFkfrsLSdpaYJY
+    # 令牌有效期（默认30分钟）
+    expireTime: 1440
+
+# 日志配置
+logging:
+  level:
+    com.zcy: debug
+    org.springframework: warn
