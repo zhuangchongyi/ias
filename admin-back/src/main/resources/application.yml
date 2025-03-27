@@ -18,9 +18,9 @@ server:
 
 spring:
   application:
-    name: IA-System-Admin
+    name: IAS-Admin
   profiles:
-    active: dev
+    active: @spring.profiles.active@
 
 
 #mybatis plus 设置
