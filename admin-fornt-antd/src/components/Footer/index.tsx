@@ -8,23 +8,24 @@ const Footer: React.FC = () => {
       style={{
         background: 'none',
       }}
+      copyright="Powered by ZhuangChongYi"
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
-          blankTarget: true,
+          key: '智能考勤系统',
+          title: '智能考勤系统',
+          href: '/',
+          blankTarget: false,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/zhuangchongyi/ias',
           blankTarget: true,
         },
         {
           key: 'Ant Design',
           title: 'Ant Design',
-          href: 'https://ant.design',
+          href: 'https://ant-design.antgroup.com/index-cn',
           blankTarget: true,
         },
       ]}

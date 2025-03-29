@@ -1,4 +1,5 @@
 export default {
+  'app.settings.title': 'Ant Design Pro',
   'app.settings.menuMap.basic': '基本设置',
   'app.settings.menuMap.security': '安全设置',
   'app.settings.menuMap.binding': '账号绑定',

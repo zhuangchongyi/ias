@@ -1,4 +1,5 @@
 export default {
+  'app.settings.title': '智能考勤系統',
   'app.settings.menuMap.basic': '基本設置',
   'app.settings.menuMap.security': '安全設置',
   'app.settings.menuMap.binding': '賬號綁定',
