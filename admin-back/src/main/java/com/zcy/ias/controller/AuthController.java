@@ -8,6 +8,11 @@ import com.zcy.ias.vo.SysUserVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 认证控制器
  *
@@ -36,6 +41,21 @@ public class AuthController {
     @GetMapping("/getInfo")
     public R<SysUserVO> getInfo() {
         return R.ok(authService.getInfo());
+    }
+
+    /**
+     * 获取菜单路由明细
+     */
+    @GetMapping("/getRoutes")
+    public R<List<Map<String, Object>>> getRoutes() {
+        ArrayList<Map<String, Object>> data = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("path", "/welcome1");
+        map.put("name", "welcome1");
+        map.put("icon", "smile");
+        map.put("component", "/pages/Welcome");
+        data.add(map);
+        return R.ok(data);
     }
 
 }
