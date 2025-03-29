@@ -2,16 +2,21 @@ package com.zcy.ias.service.impl;
 
 import com.zcy.common.core.entity.LoginBody;
 import com.zcy.common.core.entity.LoginUser;
+import com.zcy.common.exception.ServiceException;
+import com.zcy.common.utils.BeanUtils;
 import com.zcy.common.utils.SecurityUtils;
 import com.zcy.config.context.AuthenticationContextHolder;
 import com.zcy.ias.service.AuthService;
 import com.zcy.ias.service.SysUserService;
 import com.zcy.ias.service.auth.TokenService;
+import com.zcy.ias.vo.SysUserVO;
 import jakarta.annotation.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -40,10 +45,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoginUser getInfo() {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
+    public SysUserVO getInfo() {
+        return Optional.ofNullable(SecurityUtils.getLoginUser())
+                .map(LoginUser::getUser)
+                .map(user -> {
+                    SysUserVO vo = new SysUserVO();
+                    BeanUtils.copyBeanProp(user, vo);
+                    // TODO 获取用户角色权限信息
 
-        return loginUser;
+                    return vo;
+                })
+                .orElseThrow(() -> new ServiceException("获取用户信息失败"));
+
     }
 
 

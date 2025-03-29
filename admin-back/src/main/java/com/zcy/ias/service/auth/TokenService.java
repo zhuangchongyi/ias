@@ -61,18 +61,25 @@ public class TokenService {
      * @return 用户信息
      */
     public LoginUser getLoginUser(HttpServletRequest request) {
+        try {
+            String userTokenKey = this.getUserTokenKey(request);
+            if (StringUtils.isNotEmpty(userTokenKey)) {
+                return redisCache.getCacheObject(userTokenKey);
+            }
+        } catch (Exception e) {
+            log.error("获取用户信息异常'{}'", e.getMessage());
+        }
+        return null;
+    }
+
+    public String getUserTokenKey(HttpServletRequest request) {
         // 获取请求携带的令牌
         String token = this.getToken(request);
         if (StringUtils.isNotEmpty(token)) {
-            try {
-                Claims claims = this.parseToken(token);
-                // 解析对应的权限以及用户信息
-                String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-                String userKey = this.getTokenKey(uuid);
-                return redisCache.getCacheObject(userKey);
-            } catch (Exception e) {
-                log.error("获取用户信息异常'{}'", e.getMessage());
-            }
+            Claims claims = this.parseToken(token);
+            // 解析对应的权限以及用户信息
+            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
+            return this.getTokenKey(uuid);
         }
         return null;
     }

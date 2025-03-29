@@ -3,8 +3,8 @@ package com.zcy.ias.controller;
 
 import com.zcy.common.core.R;
 import com.zcy.common.core.entity.LoginBody;
-import com.zcy.common.core.entity.LoginUser;
 import com.zcy.ias.service.AuthService;
+import com.zcy.ias.vo.SysUserVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class AuthController {
      * 获取用户明细信息
      */
     @GetMapping("/getInfo")
-    public R<LoginUser> getInfo() {
+    public R<SysUserVO> getInfo() {
         return R.ok(authService.getInfo());
     }
 

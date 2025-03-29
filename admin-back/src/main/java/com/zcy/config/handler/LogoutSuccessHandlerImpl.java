@@ -1,7 +1,6 @@
 package com.zcy.config.handler;
 
 import com.zcy.common.core.R;
-import com.zcy.common.core.entity.LoginUser;
 import com.zcy.common.utils.JSONUtils;
 import com.zcy.common.utils.ServletUtils;
 import com.zcy.common.utils.StringUtils;
@@ -31,10 +30,10 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
      */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        LoginUser loginUser = tokenService.getLoginUser(request);
-        if (StringUtils.isNotNull(loginUser)) {
+        String userKey = tokenService.getUserTokenKey(request);
+        if (StringUtils.isNotNull(userKey)) {
             // 删除用户缓存记录
-            tokenService.delLoginUser(loginUser.getToken());
+            tokenService.delLoginUser(userKey);
         }
         ServletUtils.renderString(response, JSONUtils.toJson(R.ok("退出成功")));
     }

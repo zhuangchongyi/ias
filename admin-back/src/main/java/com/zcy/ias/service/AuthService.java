@@ -1,7 +1,7 @@
 package com.zcy.ias.service;
 
 import com.zcy.common.core.entity.LoginBody;
-import com.zcy.common.core.entity.LoginUser;
+import com.zcy.ias.vo.SysUserVO;
 
 /**
  * 认证服务接口
@@ -18,6 +18,6 @@ public interface AuthService {
     /**
      * 获取用户信息
      */
-    LoginUser getInfo();
+    SysUserVO getInfo();
 
 }

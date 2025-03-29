@@ -30,6 +30,7 @@ CREATE TABLE sys_user
 
 insert into sys_user(id, username, password, nickname, avatar)
 values (1, 'root', '$2a$10$agPA/b0ntfiEEMHm51OIs.tx/NQxUyoIUwor95BfoafmMw9iltJQS', '管理员',
-        CONCAT('https://avatars.githubusercontent.com/', FLOOR(RAND() * 100) + 1));
-
-
+        'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png')
+     , (2, 'admin', '$2a$10$agPA/b0ntfiEEMHm51OIs.tx/NQxUyoIUwor95BfoafmMw9iltJQS', '管理员',
+        'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png')
+;

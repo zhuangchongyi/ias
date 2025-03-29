@@ -72,7 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new ServiceException("密码输入错误{}次，帐户锁定{}分钟", maxRetryCount, lockTime);
         }
 
-        if (!SecurityUtils.matchesPassword(user.getPassword(), password)) {
+        if (!SecurityUtils.matchesPassword(password, user.getPassword())) {
             retryCount = retryCount + 1;
             redisCache.setCacheObject(cacheKey, retryCount, lockTime, TimeUnit.MINUTES);
             throw new ServiceException("密码错误");
