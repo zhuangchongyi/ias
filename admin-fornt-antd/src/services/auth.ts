@@ -38,3 +38,11 @@ export async function getCurrentUser(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+/** 获取菜单 */
+export async function getRoutes(options?: { [key: string]: any }) {
+  return request<BaseTypes.R<BaseTypes.Route[]>>('/auth/getRoutes', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

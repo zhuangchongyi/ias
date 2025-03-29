@@ -12,6 +12,10 @@
  */
 export default [
   {
+    path: '/',
+    redirect: '/welcome',
+  },
+  {
     layout: false,
     path: '/login',
     component: '@/pages/login',
@@ -23,8 +27,10 @@ export default [
     component: '@/pages/Welcome',
   },
   {
-    path: '/',
-    redirect: '/welcome',
+    path: '/dashboard',
+    name: 'dashboard',
+    icon: 'dashboard',
+    component: '@/pages/dashboard',
   },
   {
     path: '*',

@@ -22,6 +22,12 @@ declare namespace BaseTypes {
     code?: string;
     uuid?: string;
   };
+  type LoginResult = {
+    status?: boolean;
+    msg?: string;
+    type?: string;
+    currentAuthority?: string;
+  };
   /**
    * 分页基础参数
    */
@@ -54,6 +60,15 @@ declare namespace BaseTypes {
     updateTime?: string;
     delFlag?: number;
   };
-
-
+  /**
+   * 当前登录用户信息
+   */
+  type Route = {
+    id?: number;
+    parentId?: number;
+    path?: string;
+    name?: string;
+    icon?: string;
+    component?: string;
+  };
 }

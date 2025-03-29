@@ -1,15 +1,40 @@
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
 import { TOKEN_KEY } from '@/config';
 import { errorConfig } from '@/requestErrorConfig';
-import { getCurrentUser } from '@/services/auth';
+import { getCurrentUser, getRoutes } from '@/services/auth';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
+import localRoutes from '../config/routes';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
+
+const getFetchUserInfo = async () => {
+  try {
+    const { data } = await getCurrentUser({
+      skipErrorHandler: true,
+    });
+    //追加入localRoutes返回
+    return data;
+  } catch (error) {
+    history.push(loginPath);
+  }
+  return undefined;
+};
+
+const getFetchRoutesData = async () => {
+  try {
+    const { data } = await getRoutes();
+    console.log(data);
+    return data || [];
+  } catch (error) {
+    console.log('获取路由数据失败', error);
+  }
+  return [];
+};
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -17,37 +42,38 @@ const loginPath = '/login';
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: BaseTypes.CurrentUser;
+  routes?: BaseTypes.Route[];
   loading?: boolean;
-  fetchUserInfo?: () => Promise<BaseTypes.CurrentUser | undefined>;
 }> {
+  const { location } = history;
+
   // 判断是否登录
   const token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
     history.push(loginPath);
+  } else if (location.pathname === loginPath) {
+    history.push('/');
   }
-  const fetchUserInfo = async () => {
-    try {
-      const { data } = await getCurrentUser({
-        skipErrorHandler: true,
-      });
-      return data;
-    } catch (error) {
-      history.push(loginPath);
-    }
-    return undefined;
-  };
+
   // 如果不是登录页面，执行
-  const { location } = history;
   if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+    // 获取用户信息
+    const currentUser = await getFetchUserInfo();
+    // 获取路由数据
+    const backendRoutes = await getFetchRoutesData();
+    const routes: BaseTypes.Route[] = [
+      ...localRoutes.map((route) => ({
+        ...route,
+      })),
+      ...backendRoutes,
+    ];
     return {
-      fetchUserInfo,
       currentUser,
+      routes,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
   return {
-    fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
@@ -75,26 +101,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
       }
     },
-    bgLayoutImgList: [
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
-        left: 85,
-        bottom: 100,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr',
-        bottom: -68,
-        right: -45,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr',
-        bottom: 0,
-        left: 0,
-        width: '331px',
-      },
-    ],
+    bgLayoutImgList: [],
     links: [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -121,6 +128,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         </>
       );
     },
+    menuDataRender: () => initialState?.routes || [],
     ...initialState?.settings,
   };
 };
