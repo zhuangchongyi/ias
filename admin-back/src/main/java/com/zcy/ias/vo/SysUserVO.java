@@ -4,6 +4,8 @@ import com.zcy.ias.entity.SysUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * 系统用户表(SysUser)VO类
  *
@@ -13,5 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SysUserVO extends SysUser {
+    /**
+     * 权限列表
+     */
+    private List<String> permissionList;
 }
 
