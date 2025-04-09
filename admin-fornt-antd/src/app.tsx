@@ -1,5 +1,5 @@
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
-import { TOKEN_KEY } from '@/config';
+import { TOKEN_KEY } from '@/utils/constant';
 import { errorConfig } from '@/requestErrorConfig';
 import { getCurrentUser } from '@/services/auth';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';

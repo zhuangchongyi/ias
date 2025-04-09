@@ -11,8 +11,7 @@ import { Button, Drawer, message, Avatar } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
-import { getGenderEnum, getStatusEnum } from '@/config/enums';
-
+import { GenderEnum, StatusEnum } from '@/utils/enums';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -34,20 +33,18 @@ const TableList: React.FC = () => {
     onSuccess: () => {
       setSelectedRows([]);
       actionRef.current?.reloadAndRest?.();
-      messageApi.success(intl.formatMessage({id: 'message.operation.success'}));
+      messageApi.success(intl.formatMessage({ id: 'message.operation.success' }));
     },
     onError: () => {
-      messageApi.success(intl.formatMessage({id: 'message.operation.failure'}));
+      messageApi.success(intl.formatMessage({ id: 'message.operation.failure' }));
     },
   });
 
   const columns: ProColumns<API.SysUser>[] = [
     {
-      title: (
-        <FormattedMessage id="pages.searchSysUser.updateForm.ruleName.nameLabel"/>
-      ),
+      title: <FormattedMessage id="pages.SysUser.search.id" />,
       dataIndex: 'id',
-      render: (dom:any, row:any) => {
+      render: (dom: any, row: any) => {
         return (
           <a
             onClick={() => {
@@ -61,76 +58,70 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.username" />,
       dataIndex: 'username',
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.nickname" />,
       dataIndex: 'nickname',
     },
     {
-      title: '头像',
+      title: <FormattedMessage id="pages.SysUser.search.avatar" />,
       dataIndex: 'avatar',
       hideInSearch: true,
-      render: (dom:any, row:any) => [
-        row.avatar ? <Avatar src={row.avatar} key={row.id}/> : null,
-      ]
+      render: (dom: any, row: any) => [
+        row.avatar ? <Avatar src={row.avatar} key={row.id} /> : null,
+      ],
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.email" />,
       dataIndex: 'email',
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.phone" />,
       dataIndex: 'phone',
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.gender" />,
       dataIndex: 'gender',
-      valueEnum: getGenderEnum,
+      valueEnum: GenderEnum.valueEnum,
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.status" />,
       dataIndex: 'status',
-      valueEnum: getStatusEnum,
+      valueEnum: StatusEnum.valueEnum,
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.createBy" />,
       dataIndex: 'createBy',
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.createTime" />,
       dataIndex: 'createTime',
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
+      title: <FormattedMessage id="pages.SysUser.search.updateBy" />,
       dataIndex: 'updateBy',
     },
     {
-      title: <FormattedMessage id="pages.searchSysUser.titleDesc"/>,
-      dataIndex: 'updateTime',
+      title: <FormattedMessage id="pages.SysUser.search.updateBy" />,
+      dataIndex: 'updateBy',
     },
     {
-      title: <FormattedMessage id="pages.config.titleOption"/>,
+      title: <FormattedMessage id="pages.config.option" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: (dom:any, row:any) => [
+      render: (dom: any, row: any) => [
         <UpdateForm
           trigger={
             <a>
-              <FormattedMessage id="pages.searchSysUser.config"/>
+              <FormattedMessage id="pages.config.edit" />
             </a>
           }
-          key="config"
+          key="edit"
           onOk={actionRef.current?.reload}
           values={row}
         />,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          <FormattedMessage
-            id="pages.searchSysUser.subscribeAlert"
-            defaultMessage="Subscribe to alerts"
-          />
-        </a>,
       ],
     },
   ];
@@ -144,8 +135,7 @@ const TableList: React.FC = () => {
   const handleRemove = useCallback(
     async (selectedRows: API.SysUser[]) => {
       if (!selectedRows?.length) {
-        messageApi.warning('请选择删除项');
-
+        messageApi.warning(intl.formatMessage({ id: 'message.please.select.delete.item' }));
         return;
       }
 
@@ -162,17 +152,14 @@ const TableList: React.FC = () => {
     <PageContainer>
       {contextHolder}
       <ProTable<API.SysUser, API.R<API.SysUser>>
-        headerTitle={intl.formatMessage({
-          id: 'pages.searchSysUser.title',
-          defaultMessage: 'Enquiry form',
-        })}
+        headerTitle={intl.formatMessage({ id: 'pages.searchSysUser.title' })}
         actionRef={actionRef}
         rowKey="id"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [<CreateForm key="create" reload={actionRef.current?.reload} />]}
-        request={async (params:API.SysUser) => {
+        request={async (params: API.SysUser) => {
           const res: API.R<API.SysUser> = await pageSysUser(params);
           return {
             success: res.code === 200,
@@ -182,7 +169,7 @@ const TableList: React.FC = () => {
         }}
         columns={columns}
         rowSelection={{
-          onChange: (dom:any, row:any) => {
+          onChange: (dom: any, row: any) => {
             setSelectedRows(row);
           },
         }}
@@ -191,15 +178,12 @@ const TableList: React.FC = () => {
         <FooterToolbar
           extra={
             <div>
-              <FormattedMessage id="pages.config.chosen" defaultMessage="Chosen" />{' '}
+              <FormattedMessage id="pages.config.chosen" />{' '}
               <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              <FormattedMessage id="pages.searchSysUser.item" defaultMessage="项" />
+              <FormattedMessage id="pages.config.item" />
               &nbsp;&nbsp;
               <span>
-                <FormattedMessage
-                  id="pages.searchSysUser.totalServiceCalls"
-                  defaultMessage="Total number of service calls"
-                />{' '}
+                <FormattedMessage id="pages.searchSysUser.totalServiceCalls" />{' '}
                 {selectedRowsState.reduce((pre, item) => pre + item.id!, 0)}{' '}
                 <FormattedMessage id="pages.searchSysUser.tenThousand" defaultMessage="万" />
               </span>
@@ -212,16 +196,7 @@ const TableList: React.FC = () => {
               handleRemove(selectedRowsState);
             }}
           >
-            <FormattedMessage
-              id="pages.searchSysUser.batchDeletion"
-              defaultMessage="Batch deletion"
-            />
-          </Button>
-          <Button type="primary">
-            <FormattedMessage
-              id="pages.searchSysUser.batchApproval"
-              defaultMessage="Batch approval"
-            />
+            <FormattedMessage id="pages.config.batchDeletion" />
           </Button>
         </FooterToolbar>
       )}

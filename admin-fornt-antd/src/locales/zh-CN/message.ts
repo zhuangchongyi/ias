@@ -5,4 +5,5 @@ export default {
   'message.data.formatting.error': '数据格式错误',
   'message.operation.success': '操作成功',
   'message.operation.failure': '操作失败',
+  'message.please.select.delete.item': '请选择删除项',
 };

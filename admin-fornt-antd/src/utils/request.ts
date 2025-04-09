@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { TOKEN_KEY } from '@/config';
+import { TOKEN_KEY } from '@/utils/constant';
 import { history, useIntl } from '@umijs/max';
 import { message } from 'antd';
 import { extend } from 'umi-request';

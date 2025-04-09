@@ -1,5 +1,5 @@
 import { Footer } from '@/components';
-import { TOKEN_KEY } from '@/config';
+import { TOKEN_KEY } from '@/utils/constant';
 import { getFakeCaptcha, login } from '@/services/auth';
 import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import {

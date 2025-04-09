@@ -11,8 +11,8 @@ const Footer: React.FC = () => {
       copyright="Powered by ZhuangChongYi"
       links={[
         {
-          key: '智能考勤系统',
-          title: '智能考勤系统',
+          key: process.env.UMI_APP_TITLE,
+          title: process.env.UMI_APP_TITLE,
           href: '/',
           blankTarget: false,
         },
