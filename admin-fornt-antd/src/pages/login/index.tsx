@@ -8,11 +8,10 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { FormattedMessage, Helmet, SelectLang, useIntl, useModel } from '@umijs/max';
+import { FormattedMessage, Helmet, SelectLang, useIntl } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
 import Settings from '../../../config/defaultSettings';
 
 const useStyles = createStyles(({ token }) => {
@@ -77,12 +76,12 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<BaseTypes.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { styles } = useStyles();
   const intl = useIntl();
 
-  const handleSubmit = async (values: BaseTypes.LoginParams) => {
+  const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
       const { msg, data, success } = await login({ ...values, type });
@@ -144,7 +143,7 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as BaseTypes.LoginParams);
+            await handleSubmit(values as API.LoginParams);
           }}
         >
           <Tabs

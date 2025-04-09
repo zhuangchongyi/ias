@@ -1,6 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
-declare namespace BaseTypes {
+declare namespace API {
+  ///////////////////////////////通用参数类型///////////////////////////////
   /**
    * 请求返回格式
    */
@@ -10,6 +11,17 @@ declare namespace BaseTypes {
     success: boolean;
     data?: T;
   };
+  /**
+   * 分页基础参数
+   */
+  type Page<T> = {
+    records?: T[];
+    total?: number;
+    current?: number;
+    size?: number;
+  };
+  ///////////////////////////////通用参数类型///////////////////////////////
+
   /**
    * 登录参数
    */
@@ -22,25 +34,16 @@ declare namespace BaseTypes {
     code?: string;
     uuid?: string;
   };
-  type LoginResult = {
-    status?: boolean;
-    msg?: string;
-    type?: string;
-    currentAuthority?: string;
+  /**
+   * 当前登录用户
+   */
+  type CurrentUser = SysUser & {
+    permissionList?: string[];
   };
   /**
-   * 分页基础参数
+   * 用户
    */
-  type Page<T> = {
-    records?: T[];
-    total?: number;
-    current?: number;
-    size?: number;
-  };
-  /**
-   * 当前登录用户信息
-   */
-  type CurrentUser = {
+  type SysUser = Page & {
     id?: number;
     username?: string;
     password?: string;
@@ -58,17 +61,6 @@ declare namespace BaseTypes {
     updateId?: number;
     updateBy?: string;
     updateTime?: string;
-    delFlag?: number;
-  };
-  /**
-   * 当前登录用户信息
-   */
-  type Route = {
-    id?: number;
-    parentId?: number;
-    path?: string;
-    name?: string;
-    icon?: string;
-    component?: string;
+    delFlag?: string;
   };
 }

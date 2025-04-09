@@ -1,13 +1,12 @@
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
 import { TOKEN_KEY } from '@/config';
 import { errorConfig } from '@/requestErrorConfig';
-import { getCurrentUser, getRoutes } from '@/services/auth';
+import { getCurrentUser } from '@/services/auth';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import localRoutes from '../config/routes';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
@@ -17,23 +16,11 @@ const getFetchUserInfo = async () => {
     const { data } = await getCurrentUser({
       skipErrorHandler: true,
     });
-    //追加入localRoutes返回
     return data;
   } catch (error) {
-    history.push(loginPath);
+    console.log(error);
   }
   return undefined;
-};
-
-const getFetchRoutesData = async () => {
-  try {
-    const { data } = await getRoutes();
-    console.log(data);
-    return data || [];
-  } catch (error) {
-    console.log('获取路由数据失败', error);
-  }
-  return [];
 };
 
 /**
@@ -41,40 +28,51 @@ const getFetchRoutesData = async () => {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: BaseTypes.CurrentUser;
-  routes?: BaseTypes.Route[];
   loading?: boolean;
+  currentUser?: API.CurrentUser;
+  permissionList?: string[];
 }> {
   const { location } = history;
-
-  // 判断是否登录
   const token = localStorage.getItem(TOKEN_KEY);
-  if (!token) {
+  const settingsConfig = defaultSettings as Partial<LayoutSettings>;
+  // 未登录，且不是在登录页，跳转登录页
+  if (!token && location.pathname !== loginPath) {
     history.push(loginPath);
-  } else if (location.pathname === loginPath) {
-    history.push('/');
-  }
-
-  // 如果不是登录页面，执行
-  if (location.pathname !== loginPath) {
-    // 获取用户信息
-    const currentUser = await getFetchUserInfo();
-    // 获取路由数据
-    const backendRoutes = await getFetchRoutesData();
-    const routes: BaseTypes.Route[] = [
-      ...localRoutes.map((route) => ({
-        ...route,
-      })),
-      ...backendRoutes,
-    ];
     return {
-      currentUser,
-      routes,
-      settings: defaultSettings as Partial<LayoutSettings>,
+      settings: settingsConfig,
     };
   }
+
+  // 已登录，尝试获取用户信息
+  if (token) {
+    try {
+      const currentUser = await getFetchUserInfo();
+
+      // 判断用户信息是否有效
+      if (!currentUser || !currentUser.id) {
+        // 用户信息无效，清除 token 并跳转登录
+        localStorage.removeItem(TOKEN_KEY);
+        history.push(loginPath);
+        return {
+          settings: settingsConfig,
+        };
+      }
+
+      return {
+        currentUser,
+        permissionList: currentUser.permissionList || [],
+        settings: settingsConfig,
+      };
+    } catch (error) {
+      console.error('获取用户信息失败:', error);
+      localStorage.removeItem(TOKEN_KEY);
+      history.push(loginPath);
+    }
+  }
+
+  // 默认返回
   return {
-    settings: defaultSettings as Partial<LayoutSettings>,
+    settings: settingsConfig,
   };
 }
 
@@ -85,7 +83,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
-      render: (_, avatarChildren) => {
+      render: (_: any, avatarChildren: any) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
@@ -107,7 +105,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
-    childrenRender: (children) => {
+    childrenRender: (children: any) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
@@ -117,8 +115,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
               disableUrlParams
               enableDarkTheme
               settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
+              onSettingChange={(settings: any) => {
+                setInitialState((preInitialState: any) => ({
                   ...preInitialState,
                   settings,
                 }));
@@ -128,7 +126,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         </>
       );
     },
-    menuDataRender: () => initialState?.routes || [],
+    // menuDataRender: () => initialState?.routes || [],
     ...initialState?.settings,
   };
 };

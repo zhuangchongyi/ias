@@ -1,3 +1,4 @@
+import { TOKEN_KEY } from '@/config';
 import { outLogin } from '@/services/auth';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
@@ -8,7 +9,6 @@ import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import HeaderDropdown from '../HeaderDropdown';
-import { TOKEN_KEY } from '@/config';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -18,7 +18,11 @@ export type GlobalHeaderRightProps = {
 export const AvatarName = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
-  return <span className="anticon">{currentUser?.nickname}({currentUser?.username})</span>;
+  return (
+    <span className="anticon">
+      {currentUser?.nickname}({currentUser?.username})
+    </span>
+  );
 };
 
 const useStyles = createStyles(({ token }) => {

@@ -3,8 +3,8 @@
 import request from '@/utils/request';
 
 /** 登录接口 */
-export async function login(body: BaseTypes.LoginParams, options?: { [key: string]: any }) {
-  return request<BaseTypes.R<string>>('/auth/login', {
+export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<API.R<string>>('/auth/login', {
     method: 'POST',
     data: body,
     ...(options || {}),
@@ -13,7 +13,7 @@ export async function login(body: BaseTypes.LoginParams, options?: { [key: strin
 
 /** 退出登录接口 */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<BaseTypes.R<string>>('/auth/logout', {
+  return request<API.R<string>>('/auth/logout', {
     method: 'POST',
     ...(options || {}),
   });
@@ -21,10 +21,10 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 发送验证码 */
 export async function getFakeCaptcha(
-  body: BaseTypes.LoginParams,
+  body: API.LoginParams,
   options?: { [key: string]: any },
 ) {
-  return request<BaseTypes.R<string>>('/auth/phoneCaptcha', {
+  return request<API.R<string>>('/auth/phoneCaptcha', {
     method: 'POST',
     data: body,
     ...(options || {}),
@@ -33,15 +33,7 @@ export async function getFakeCaptcha(
 
 /** 获取当前的用户 */
 export async function getCurrentUser(options?: { [key: string]: any }) {
-  return request<BaseTypes.R<BaseTypes.CurrentUser>>('/auth/getInfo', {
-    method: 'GET',
-    ...(options || {}),
-  });
-}
-
-/** 获取菜单 */
-export async function getRoutes(options?: { [key: string]: any }) {
-  return request<BaseTypes.R<BaseTypes.Route[]>>('/auth/getRoutes', {
+  return request<API.R<API.CurrentUser>>('/auth/getInfo', {
     method: 'GET',
     ...(options || {}),
   });

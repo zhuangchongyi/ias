@@ -37,4 +37,29 @@ export default [
     layout: false,
     component: '@/pages/404',
   },
+  {
+    name: 'account',
+    icon: 'user',
+    path: '/account',
+    routes: [
+      {
+        name: 'center',
+        icon: 'smile',
+        path: '/account/center',
+        component: '@/pages/account/center',
+      },
+      {
+        name: 'settings',
+        icon: 'smile',
+        path: '/account/settings',
+        component: '@/pages/account/settings',
+      },
+    ],
+  },
+  {
+    name: 'UserList',
+    icon: 'UserSwitch',
+    path: '/user/list',
+    component: '@/pages/user',
+  },
 ];

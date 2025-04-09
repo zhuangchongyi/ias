@@ -91,13 +91,7 @@ const ChartCard: React.FC<ChartCardProps> = (props) => {
     ...rest
   } = props;
   return (
-    <Card
-      loading={loading}
-      bodyStyle={{
-        padding: '20px 24px 8px 24px',
-      }}
-      {...rest}
-    >
+    <Card loading={loading} styles={{ body: { padding: '20px 24px 8px 24px' } }} {...rest}>
       {renderContent()}
     </Card>
   );

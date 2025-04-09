@@ -5,7 +5,8 @@ import pages from './zh-CN/pages';
 import pwa from './zh-CN/pwa';
 import settingDrawer from './zh-CN/settingDrawer';
 import settings from './zh-CN/settings';
-import message from './en-US/message';
+import message from './zh-CN/message';
+import enums from './zh-CN/enums';
 
 export default {
   'navBar.lang': '语言',
@@ -23,4 +24,5 @@ export default {
   ...pwa,
   ...component,
   ...message,
+  ...enums,
 };

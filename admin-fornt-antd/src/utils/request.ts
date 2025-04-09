@@ -7,16 +7,10 @@ import { extend } from 'umi-request';
 
 let isRefreshing = false; // 防止多次触发跳转
 
-/** 统一错误处理 */
-const errorHandler = (error: any) => {
-  console.error('请求错误:', error);
-};
-
 /** 创建可调用的 `request` 实例 */
 const request = extend({
   timeout: 10000, // 请求超时时间
   prefix: process.env.UMI_APP_BASE_URL, // 统一 API 前缀
-  errorHandler, // 统一错误处理
 });
 
 /** 处理登录过期 */
@@ -44,7 +38,6 @@ const handleLogout = () => {
   setTimeout(() => {
     isRefreshing = false;
   }, 2000);
-
 };
 
 /** 请求拦截器 */
@@ -64,12 +57,39 @@ request.interceptors.request.use((url, options) => {
 
 /** 响应拦截器 */
 request.interceptors.response.use(async (response) => {
-  // 解析 JSON 数据
-  const data = await response.clone().json();
-  if (data.code === 401) {
-    handleLogout();
+  const status = response.status;
+
+  // 如果是网关超时或服务器错误，统一提示
+  if (status === 504) {
+    const intl = useIntl();
+    const msg = intl.formatMessage({id: 'message.request.timeout'});
+    message.error(msg);
+    throw new Error(`${msg} (${status})`);
   }
-  return data;
+  if (status >= 500) {
+    const intl = useIntl();
+    const msg = intl.formatMessage({id: 'message.system.error'});
+    message.error(msg);
+    throw new Error(`${msg} (${status})`);
+  }
+
+  // 判断是否是 JSON
+  const clone = response.clone();
+  const contentType = clone.headers.get('content-type') || 'application/json';
+
+  if (contentType.includes('application/json')) {
+    try {
+      const data = await clone.json();
+      if (data.code === 401) handleLogout();
+      return data;
+    } catch (e) {
+      const intl = useIntl();
+      const msg = intl.formatMessage({id: 'message.data.formatting.error'});
+      message.error(msg);
+      throw e;
+    }
+  }
+  return clone;
 });
 
 export default request;

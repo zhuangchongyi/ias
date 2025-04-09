@@ -38,13 +38,7 @@ const SalesCard = ({
 }) => {
   const { styles } = useStyles();
   return (
-    <Card
-      loading={loading}
-      bordered={false}
-      bodyStyle={{
-        padding: 0,
-      }}
-    >
+    <Card loading={loading} variant="borderless" styles={{ body: { padding: 0 } }}>
       <div className={styles.salesCard}>
         <Tabs
           tabBarExtraContent={
