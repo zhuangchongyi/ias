@@ -2,7 +2,7 @@ package com.zcy.ias.service.impl;
 
 import com.zcy.common.core.entity.LoginBody;
 import com.zcy.common.core.entity.LoginUser;
-import com.zcy.common.exception.ServiceException;
+import com.zcy.common.exception.AuthException;
 import com.zcy.common.utils.BeanUtils;
 import com.zcy.common.utils.SecurityUtils;
 import com.zcy.config.context.AuthenticationContextHolder;
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
 
                     return vo;
                 })
-                .orElseThrow(() -> new ServiceException("获取用户信息失败"));
+                .orElseThrow(() -> new AuthException("获取用户信息失败"));
 
     }
 

@@ -1,7 +1,9 @@
 package com.zcy.config.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.zcy.common.core.entity.LoginUser;
 import com.zcy.common.emuns.FieldEnums;
+import com.zcy.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -32,15 +34,15 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
                 metaObject.setValue(FieldEnums.CREATE_TIME.getEntityField(), LocalDate.now());
             }
         }
-
+        LoginUser currentUser = SecurityUtils.getCurrentUser();
         if (metaObject.hasSetter(FieldEnums.CREATE_ID.getEntityField())
                 && Objects.isNull(metaObject.getValue(FieldEnums.CREATE_ID.getEntityField()))) {
-            this.setFieldValByName(FieldEnums.CREATE_ID.getEntityField(), 0, metaObject);
+            this.setFieldValByName(FieldEnums.CREATE_ID.getEntityField(), currentUser.getId(), metaObject);
         }
         if (metaObject.hasSetter(FieldEnums.CREATE_BY.getEntityField())
                 && Objects.isNull(metaObject.getValue(FieldEnums.CREATE_BY.getEntityField()))
                 && metaObject.getGetterType(FieldEnums.CREATE_BY.getEntityField()).equals(String.class)) {
-            this.setFieldValByName(FieldEnums.CREATE_BY.getEntityField(), null, metaObject);
+            this.setFieldValByName(FieldEnums.CREATE_BY.getEntityField(), currentUser.getNickname(), metaObject);
         }
 
         // 清空更新字段信息
@@ -67,13 +69,13 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
                 metaObject.setValue(FieldEnums.UPDATE_TIME.getEntityField(), LocalDate.now());
             }
         }
-        // 有登录人则直接按照登录人信息设置
+        LoginUser currentUser = SecurityUtils.getCurrentUser();
         if (metaObject.hasSetter(FieldEnums.UPDATE_ID.getEntityField())) {
-            this.setFieldValByName(FieldEnums.UPDATE_ID.getEntityField(), 0, metaObject);
+            this.setFieldValByName(FieldEnums.UPDATE_ID.getEntityField(), currentUser.getId(), metaObject);
         }
         if (metaObject.hasSetter(FieldEnums.UPDATE_BY.getEntityField())
                 && metaObject.getGetterType(FieldEnums.UPDATE_BY.getEntityField()).equals(String.class)) {
-            this.setFieldValByName(FieldEnums.UPDATE_BY.getEntityField(), null, metaObject);
+            this.setFieldValByName(FieldEnums.UPDATE_BY.getEntityField(), currentUser.getNickname(), metaObject);
         }
 
     }

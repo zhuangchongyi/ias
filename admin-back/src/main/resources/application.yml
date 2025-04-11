@@ -49,6 +49,8 @@ user:
   token:
     # 令牌自定义标识
     header: Authorization
+    # 令牌自定义标识
+    key: IAS-TOKEN
     # 令牌密钥
     secret: n6gthebe4NtLjbFFqWpFkfrsLSdpaYJY
     # 令牌有效期（默认30分钟）

@@ -45,6 +45,10 @@ public class TokenService {
      */
     private String header;
     /**
+     * 令牌自定义标识
+     */
+    private String key;
+    /**
      * 令牌秘钥
      */
     private String secret;
@@ -198,6 +202,8 @@ public class TokenService {
         String token = request.getHeader(header);
         if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
             token = token.replace(Constants.TOKEN_PREFIX, "");
+        } else if (StringUtils.isEmpty(token)) {
+            token = request.getParameter(key);
         }
         return token;
     }

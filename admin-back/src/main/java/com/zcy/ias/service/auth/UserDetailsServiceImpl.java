@@ -3,7 +3,7 @@ package com.zcy.ias.service.auth;
 import com.zcy.common.core.CacheConstants;
 import com.zcy.common.core.entity.LoginUser;
 import com.zcy.common.emuns.IEnums;
-import com.zcy.common.exception.ServiceException;
+import com.zcy.common.exception.AuthException;
 import com.zcy.common.utils.SecurityUtils;
 import com.zcy.common.utils.StringUtils;
 import com.zcy.config.context.AuthenticationContextHolder;
@@ -44,11 +44,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = sysUserMapper.selectUserByUserName(username);
         if (StringUtils.isNull(user)) {
-            throw new ServiceException("登录用户：{} 不存在.", username);
+            throw new AuthException("登录用户：{} 不存在", username);
         } else if (IEnums.YES.getCode() == user.getDelFlag()) {
-            throw new ServiceException("登录用户：{} 已被删除.", username);
+            throw new AuthException("登录用户：{} 已被删除", username);
         } else if (IEnums.NO.getCode() == user.getStatus()) {
-            throw new ServiceException("登录用户：{} 已被停用.", username);
+            throw new AuthException("登录用户：{} 已被停用", username);
         }
 
         this.validate(user);
@@ -69,13 +69,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         if (retryCount >= maxRetryCount) {
-            throw new ServiceException("密码输入错误{}次，帐户锁定{}分钟", maxRetryCount, lockTime);
+            throw new AuthException("密码输入错误{}次，帐户锁定{}分钟", maxRetryCount, lockTime);
         }
 
         if (!SecurityUtils.matchesPassword(password, user.getPassword())) {
             retryCount = retryCount + 1;
             redisCache.setCacheObject(cacheKey, retryCount, lockTime, TimeUnit.MINUTES);
-            throw new ServiceException("密码错误");
+            throw new AuthException("密码输入错误，剩余 {} 次", maxRetryCount - retryCount);
         } else {
             redisCache.deleteObject(cacheKey);
         }

@@ -1,70 +1,46 @@
 package com.zcy.ias.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 /**
- * 用户表(SysUser)表实体类
+ * 文件表(SysFile)表实体类
  *
  * @author zhuangchongyi
- * @since 2025-03-25 18:25:57
+ * @since 2025-04-09 17:54:35
  */
 @Data
 @NoArgsConstructor
-@TableName("sys_user")
-public class SysUser {
+@TableName("sys_file")
+public class SysFile {
     /**
-     * 用户ID
+     * 文件ID
      */
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     /**
-     * 用户名
+     * 文件名称
      */
-    @NotEmpty(message = "用户名不能为空")
-    private String username;
+    private String fileName;
     /**
-     * 密码
+     * 文件大小(B)
      */
-    @NotEmpty(message = "密码不能为空")
-    private String password;
+    private Long fileSize;
     /**
-     * 昵称
+     * 文件类型
      */
-    @NotEmpty(message = "昵称不能为空")
-    private String nickname;
+    private String fileType;
     /**
-     * 头像
+     * 文件哈希值ID
      */
-    private String avatar;
+    private String fileId;
     /**
-     * 邮箱
+     * 文件数据
      */
-    private String email;
-    /**
-     * 手机号
-     */
-    private String phone;
-    /**
-     * 性别（1男 2女）
-     */
-    private Integer gender;
-    /**
-     * 帐号状态（0禁用 1启用）
-     */
-    private Integer status;
-    /**
-     * 最后登录IP
-     */
-    private String loginIp;
-    /**
-     * 最后登录时间
-     */
-    private LocalDateTime loginDate;
+    private byte[] fileData;
     /**
      * 创建人ID
      */

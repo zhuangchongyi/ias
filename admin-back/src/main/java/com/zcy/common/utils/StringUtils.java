@@ -28,6 +28,11 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static char ASTERISK = '*';
 
     /**
+     * 点
+     */
+    public static String DOT = ".";
+
+    /**
      * 逗号
      */
     public static String COMMA = ",";

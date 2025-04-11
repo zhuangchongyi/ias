@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 /**
- * 系统用户表(SysUser)表服务实现类
+ * 用户表(SysUser)表服务实现类
  *
  * @author zhuangchongyi
  * @since 2025-03-25 18:23:14
@@ -21,7 +21,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Async
     @Override
-    public void updateLoginInfo(Integer userId) {
+    public void updateLoginInfo(Long userId) {
         SysUser sysUser = new SysUser();
         sysUser.setId(userId);
         sysUser.setLoginIp(IpUtils.getIpAddr());

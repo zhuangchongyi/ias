@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcy.ias.mapper.SysDeptMapper">
+    <sql id="baseSql">
+        select id,
+               parent_id,
+               ancestors,
+               dept_name,
+               order_num,
+               status,
+               create_id,
+               create_by,
+               create_time,
+               update_id,
+               update_by,
+               update_time,
+               del_flag
+        from sys_dept
+    </sql>
+</mapper>
+

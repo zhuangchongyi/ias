@@ -13,11 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @author ruoyi
  */
 public class SecurityUtils {
+    private final static LoginUser DEFAULT_LOGINUSER = new LoginUser(0L, null);
 
     /**
      * 用户ID
      **/
-    public static Integer getUserId() {
+    public static Long getUserId() {
         try {
             return getLoginUser().getId();
         } catch (Exception e) {
@@ -55,6 +56,17 @@ public class SecurityUtils {
             return (LoginUser) getAuthentication().getPrincipal();
         } catch (Exception e) {
             throw new ServiceException(HttpStatus.UNAUTHORIZED.value(), "获取用户信息异常");
+        }
+    }
+
+    /**
+     * 获取用户
+     */
+    public static LoginUser getCurrentUser() {
+        try {
+            return (LoginUser) getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            return DEFAULT_LOGINUSER;
         }
     }
 

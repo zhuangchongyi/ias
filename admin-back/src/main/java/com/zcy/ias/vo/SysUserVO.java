@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * 系统用户表(SysUser)VO类
+ * 用户表(SysUser)VO类
  *
  * @author zhuangchongyi
  * @since 2025-03-28 17:52:31

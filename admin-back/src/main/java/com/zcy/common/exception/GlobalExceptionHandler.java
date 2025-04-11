@@ -102,6 +102,14 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 认证异常
+     */
+    @ExceptionHandler(AuthException.class)
+    public R<String> handleRuntimeException(AuthException e, HttpServletRequest request) {
+        return R.fail(e.getMessage());
+    }
+
+    /**
      * 拦截未知的运行时异常
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)

@@ -8,63 +8,38 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * 用户表(SysUser)表实体类
+ * 角色表(SysRole)表实体类
  *
  * @author zhuangchongyi
- * @since 2025-03-25 18:25:57
+ * @since 2025-04-09 17:44:08
  */
 @Data
 @NoArgsConstructor
-@TableName("sys_user")
-public class SysUser {
+@TableName("sys_role")
+public class SysRole {
     /**
-     * 用户ID
+     * 角色ID
      */
     @TableId
     private Long id;
     /**
-     * 用户名
+     * 角色权限字符串
      */
-    @NotEmpty(message = "用户名不能为空")
-    private String username;
+    @NotEmpty(message = "角色权限字符串不能为空")
+    private String roleKey;
     /**
-     * 密码
+     * 角色名称
      */
-    @NotEmpty(message = "密码不能为空")
-    private String password;
+    @NotEmpty(message = "角色名称不能为空")
+    private String roleName;
     /**
-     * 昵称
+     * 显示顺序
      */
-    @NotEmpty(message = "昵称不能为空")
-    private String nickname;
+    private Integer orderNum;
     /**
-     * 头像
-     */
-    private String avatar;
-    /**
-     * 邮箱
-     */
-    private String email;
-    /**
-     * 手机号
-     */
-    private String phone;
-    /**
-     * 性别（1男 2女）
-     */
-    private Integer gender;
-    /**
-     * 帐号状态（0禁用 1启用）
+     * 角色状态（0禁用 1启用）
      */
     private Integer status;
-    /**
-     * 最后登录IP
-     */
-    private String loginIp;
-    /**
-     * 最后登录时间
-     */
-    private LocalDateTime loginDate;
     /**
      * 创建人ID
      */

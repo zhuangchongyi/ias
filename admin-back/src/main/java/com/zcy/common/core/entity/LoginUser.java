@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * 登录用户身份权限
@@ -24,7 +25,7 @@ public class LoginUser implements UserDetails {
     /**
      * 用户ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户唯一标识
@@ -66,7 +67,7 @@ public class LoginUser implements UserDetails {
      */
     private SysUser user;
 
-    public LoginUser(Integer id, SysUser user) {
+    public LoginUser(Long id, SysUser user) {
         this.id = id;
         this.user = user;
     }
@@ -111,7 +112,7 @@ public class LoginUser implements UserDetails {
     }
 
     public String getNickname() {
-        return user.getNickname();
+        return Optional.ofNullable(user).map(SysUser::getNickname).orElse("系统操作");
     }
 
 
