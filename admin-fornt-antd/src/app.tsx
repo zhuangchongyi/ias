@@ -1,7 +1,7 @@
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
-import { TOKEN_KEY } from '@/utils/constant';
 import { errorConfig } from '@/requestErrorConfig';
 import { getCurrentUser } from '@/services/auth';
+import { TOKEN_KEY } from '@/utils/constant';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
@@ -10,6 +10,13 @@ import defaultSettings from '../config/defaultSettings';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
+
+type AppInitialState = {
+  loading?: boolean;
+  settings?: Partial<LayoutSettings>;
+  currentUser?: API.CurrentUser;
+  permissionList?: string[];
+};
 
 const getFetchUserInfo = async () => {
   try {
@@ -26,12 +33,7 @@ const getFetchUserInfo = async () => {
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
-export async function getInitialState(): Promise<{
-  settings?: Partial<LayoutSettings>;
-  loading?: boolean;
-  currentUser?: API.CurrentUser;
-  permissionList?: string[];
-}> {
+export async function getInitialState(): Promise<AppInitialState> {
   const { location } = history;
   const token = localStorage.getItem(TOKEN_KEY);
   const settingsConfig = defaultSettings as Partial<LayoutSettings>;
@@ -59,9 +61,9 @@ export async function getInitialState(): Promise<{
       }
 
       return {
+        settings: settingsConfig,
         currentUser,
         permissionList: currentUser.permissionList || [],
-        settings: settingsConfig,
       };
     } catch (error) {
       console.error('获取用户信息失败:', error);

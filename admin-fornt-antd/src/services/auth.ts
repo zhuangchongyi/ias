@@ -20,10 +20,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 }
 
 /** 发送验证码 */
-export async function getFakeCaptcha(
-  body: API.LoginParams,
-  options?: { [key: string]: any },
-) {
+export async function getFakeCaptcha(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.R<string>>('/auth/phoneCaptcha', {
     method: 'POST',
     data: body,

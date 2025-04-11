@@ -1,18 +1,19 @@
 import { addSysUser } from '@/services/user';
+import { joinIntlMessages } from '@/utils';
+import { TOKEN_KEY } from '@/utils/constant';
+import { GenderEnum, StatusEnum } from '@/utils/enums';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ModalForm,
-  ProFormText,
-  ProFormSelect,
-  ProFormRadio,
-  ProFormDigit,
   ProFormInstance,
+  ProFormRadio,
+  ProFormText,
+  ProFormUploadButton,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
 import { FC, useRef } from 'react';
-import { GenderEnum, StatusEnum } from '@/utils/enums';
 
 interface CreateFormProps {
   reload?: ActionType['reload'];
@@ -23,7 +24,7 @@ const CreateForm: FC<CreateFormProps> = ({ reload }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const formRef = useRef<ProFormInstance>();
 
-  const { run, loading } = useRequest(addSysUser, {
+  const { run: runAdd, loading } = useRequest(addSysUser, {
     manual: true,
     onSuccess: () => {
       messageApi.success(intl.formatMessage({ id: 'message.operation.success' }));
@@ -39,55 +40,122 @@ const CreateForm: FC<CreateFormProps> = ({ reload }) => {
       {contextHolder}
       <ModalForm
         formRef={formRef}
-        title={<FormattedMessage id="pages.config.add" defaultMessage="Add User" />}
+        title={<FormattedMessage id="pages.common.add" />}
         trigger={
           <Button type="primary" icon={<PlusOutlined />}>
-            <FormattedMessage id="pages.config.add" defaultMessage="Add" />
+            <FormattedMessage id="pages.common.add" />
           </Button>
         }
         width={600}
         modalProps={{ okButtonProps: { loading } }}
         onFinish={async (value) => {
-          await run({ data: value as API.SysUser });
+          await runAdd(value as API.SysUser);
           return true;
         }}
       >
         <ProFormText
           name="username"
-          label={<FormattedMessage id="pages.SysUser.search.username" defaultMessage="用户名" />}
-          rules={[{ required: true, message: '请输入用户名' }]}
+          label={<FormattedMessage id="pages.SysUser.search.username" />}
+          rules={[
+            {
+              required: true,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.username',
+              ]),
+            },
+          ]}
         />
         <ProFormText.Password
           name="password"
-          label={<FormattedMessage id="pages.SysUser.search.password" defaultMessage="密码" />}
-          rules={[{ required: true, message: '请输入密码' }]}
+          label={<FormattedMessage id="pages.SysUser.search.password" />}
+          rules={[
+            {
+              required: true,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.password',
+              ]),
+            },
+          ]}
         />
         <ProFormText
           name="nickname"
-          label={<FormattedMessage id="pages.SysUser.search.nickname" defaultMessage="昵称" />}
+          label={<FormattedMessage id="pages.SysUser.search.nickname" />}
+          rules={[
+            {
+              required: true,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.nickname',
+              ]),
+            },
+          ]}
         />
         <ProFormText
           name="email"
-          label={<FormattedMessage id="pages.SysUser.search.email" defaultMessage="邮箱" />}
-          rules={[{ type: 'email', message: '邮箱格式不正确' }]}
+          label={<FormattedMessage id="pages.SysUser.search.email" />}
+          rules={[
+            {
+              type: 'email',
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.email',
+              ]),
+            },
+          ]}
         />
         <ProFormText
           name="phone"
-          label={<FormattedMessage id="pages.SysUser.search.phone" defaultMessage="手机号" />}
-          rules={[{ pattern: /^1[3-9]\d{9}$/, message: '请输入合法手机号' }]}
+          label={<FormattedMessage id="pages.SysUser.search.phone" />}
+          rules={[
+            {
+              pattern: /^1[3-9]\d{9}$/,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.phone',
+              ]),
+            },
+          ]}
         />
         <ProFormRadio.Group
           name="gender"
-          label={<FormattedMessage id="pages.SysUser.search.gender" defaultMessage="性别" />}
+          label={<FormattedMessage id="pages.SysUser.search.gender" />}
           options={GenderEnum.options}
           initialValue={1}
         />
         <ProFormRadio.Group
           name="status"
-          label={<FormattedMessage id="pages.SysUser.search.status" defaultMessage="帐号状态" />}
+          label={<FormattedMessage id="pages.SysUser.search.status" />}
           options={StatusEnum.options}
           initialValue={1}
         />
+        <ProFormUploadButton
+          name="avatar"
+          label={<FormattedMessage id="pages.SysUser.search.avatar" />}
+          max={1}
+          fieldProps={{
+            name: 'file',
+            listType: 'picture-circle',
+            showUploadList: true,
+            accept: 'image/*',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+            },
+          }}
+          action="/api/common/file/upload"
+          transform={(value) => ({
+            avatar: value?.[0]?.response?.data || '',
+          })}
+          rules={[{ required: false }]}
+        >
+          <div>
+            <PlusOutlined />
+            <div style={{ marginTop: 8 }}>
+              <FormattedMessage id="pages.common.upload" />
+            </div>
+          </div>
+        </ProFormUploadButton>
       </ModalForm>
     </>
   );

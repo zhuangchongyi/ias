@@ -47,3 +47,13 @@ export async function removeSysUser(idList: any, options?: { [key: string]: any 
     },
   });
 }
+
+/** 查询用户明细  */
+export async function getSysUser(id: number, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/sysUser/get/' + id, {
+    method: 'get',
+    data: {
+      ...(options || {}),
+    },
+  });
+}

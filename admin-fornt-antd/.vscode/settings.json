@@ -1,0 +1,16 @@
+{
+  "i18n-ally.pathMatcher": "*.ts",
+  "i18n-ally.enabledParsers": ["ts"],
+  "i18n-ally.sortKeys": true,
+  // 国际化文件路径
+  "i18n-ally.localesPaths": ["src/locales"],
+  // 默认语言
+  "i18n-ally.sourceLanguage": "zh-CN",
+  "i18n-ally.displayLanguage": "zh-CN",
+  // 启用 React 框架支持
+  "i18n-ally.enabledFrameworks": ["react"],
+  // 快速跳转到 key 的定义
+  "i18n-ally.tabStyle": "space",
+  "i18n-ally.extract.autoDetect": true,
+  "i18n-ally.keystyle": "nested"
+}

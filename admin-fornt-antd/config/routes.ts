@@ -63,4 +63,16 @@ export default [
     path: '/user/list',
     component: '@/pages/user',
   },
+  {
+    name: 'RoleList',
+    icon: 'UserSwitch',
+    path: '/role/list',
+    component: '@/pages/role',
+  },
+  {
+    name: 'DeptList',
+    icon: 'UserSwitch',
+    path: '/dept/list',
+    component: '@/pages/dept',
+  },
 ];

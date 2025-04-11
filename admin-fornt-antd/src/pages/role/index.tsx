@@ -1,5 +1,5 @@
-import { pageSysUser, removeSysUser } from '@/services/user';
-import { GenderEnum, StatusEnum } from '@/utils/enums';
+import { pageSysRole, removeSysRole } from '@/services/role';
+import { StatusEnum } from '@/utils/enums';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
   FooterToolbar,
@@ -8,7 +8,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
-import { Avatar, Button, Drawer, message, Modal } from 'antd';
+import { Button, Drawer, message, Modal } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
@@ -16,8 +16,8 @@ import UpdateForm from './components/UpdateForm';
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<API.SysUser>();
-  const [selectedRowsState, setSelectedRows] = useState<API.SysUser[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.SysRole>();
+  const [selectedRowsState, setSelectedRows] = useState<API.SysRole[]>([]);
 
   /**
    * @en-US International configuration
@@ -27,7 +27,7 @@ const TableList: React.FC = () => {
   const [messageApi, messageContextHolder] = message.useMessage();
   const [modalApi, modalContextHolder] = Modal.useModal();
 
-  const { run: delSysUser, loading } = useRequest(removeSysUser, {
+  const { run: delSysRole, loading } = useRequest(removeSysRole, {
     manual: true,
     onSuccess: () => {
       setSelectedRows([]);
@@ -40,25 +40,25 @@ const TableList: React.FC = () => {
   });
 
   const handleRemove = useCallback(
-    async (selectedRows: API.SysUser[]) => {
+    async (selectedRows: API.SysRole[]) => {
       if (!selectedRows?.length) {
         messageApi.warning(intl.formatMessage({ id: 'message.operation.success' }));
         return;
       }
 
-      await delSysUser(selectedRows.map((row) => row.id).join());
+      await delSysRole(selectedRows.map((row) => row.id).join());
     },
-    [delSysUser],
+    [delSysRole],
   );
 
   const handleTableRequest = async (
-    params: API.SysUser,
+    params: API.SysRole,
     sort: Record<string, any>,
     filter: Record<string, any>,
   ) => {
     params.size = params.pageSize;
     params.pageSize = undefined;
-    const res: API.R<API.SysUser> = await pageSysUser(params);
+    const res: API.R<API.SysRole> = await pageSysRole(params);
     return {
       success: res.code === 200,
       data: res.data?.records || [],
@@ -66,9 +66,9 @@ const TableList: React.FC = () => {
     };
   };
 
-  const columns: ProColumns<API.SysUser>[] = [
+  const columns: ProColumns<API.SysRole>[] = [
     {
-      title: <FormattedMessage id="pages.SysUser.search.id" />,
+      title: <FormattedMessage id="pages.SysRole.search.id" />,
       dataIndex: 'id',
       render: (_dom, row: any) => {
         return (
@@ -84,34 +84,19 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.SysUser.search.username" />,
-      dataIndex: 'username',
+      title: <FormattedMessage id="pages.SysRole.search.roleKey" />,
+      dataIndex: 'roleKey',
     },
     {
-      title: <FormattedMessage id="pages.SysUser.search.nickname" />,
-      dataIndex: 'nickname',
+      title: <FormattedMessage id="pages.SysRole.search.roleName" />,
+      dataIndex: 'roleName',
     },
     {
-      title: <FormattedMessage id="pages.SysUser.search.avatar" />,
-      dataIndex: 'avatar',
-      hideInSearch: true,
-      render: (_dom, row: any) => [row.avatar ? <Avatar src={row.avatar} key={row.id} /> : null],
+      title: <FormattedMessage id="pages.SysRole.search.orderNum" />,
+      dataIndex: 'orderNum',
     },
     {
-      title: <FormattedMessage id="pages.SysUser.search.email" />,
-      dataIndex: 'email',
-    },
-    {
-      title: <FormattedMessage id="pages.SysUser.search.phone" />,
-      dataIndex: 'phone',
-    },
-    {
-      title: <FormattedMessage id="pages.SysUser.search.gender" />,
-      dataIndex: 'gender',
-      valueEnum: GenderEnum.valueEnum,
-    },
-    {
-      title: <FormattedMessage id="pages.SysUser.search.status" />,
+      title: <FormattedMessage id="pages.SysRole.search.status" />,
       dataIndex: 'status',
       valueEnum: StatusEnum.valueEnum,
     },
@@ -194,7 +179,7 @@ const TableList: React.FC = () => {
     <PageContainer>
       {messageContextHolder}
       {modalContextHolder}
-      <ProTable<API.SysUser, API.R<API.SysUser>>
+      <ProTable<API.SysRole, API.R<API.SysRole>>
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -243,7 +228,7 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.username && (
-          <ProDescriptions<API.SysUser>
+          <ProDescriptions<API.SysRole>
             column={2}
             title={currentRow?.username}
             request={async () => ({
@@ -252,7 +237,7 @@ const TableList: React.FC = () => {
             params={{
               id: currentRow?.username,
             }}
-            columns={columns as ProDescriptionsItemProps<API.SysUser>[]}
+            columns={columns as ProDescriptionsItemProps<API.SysRole>[]}
           />
         )}
       </Drawer>

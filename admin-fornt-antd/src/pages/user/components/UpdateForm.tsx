@@ -1,9 +1,16 @@
-import { editSysUser } from '@/services/user';
-import { ModalForm, ProFormText, ProFormRadio } from '@ant-design/pro-components';
+import { editSysUser, getSysUser } from '@/services/user';
+import { joinIntlMessages } from '@/utils';
+import { TOKEN_KEY } from '@/utils/constant';
+import { GenderEnum, StatusEnum } from '@/utils/enums';
+import {
+  ModalForm,
+  ProFormRadio,
+  ProFormText,
+  ProFormUploadButton,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { message } from 'antd';
 import { FC } from 'react';
-import { GenderEnum, StatusEnum } from '@/utils/enums';
 
 interface UpdateFormProps {
   trigger: JSX.Element;
@@ -15,7 +22,7 @@ const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
   const intl = useIntl();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { run, loading } = useRequest(editSysUser, {
+  const { run: runEdit, loading } = useRequest(editSysUser, {
     manual: true,
     onSuccess: () => {
       messageApi.success(intl.formatMessage({ id: 'message.operation.success' }));
@@ -26,50 +33,118 @@ const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
     },
   });
 
+  const getInfo = async () => {
+    const { data } = await getSysUser(values.id);
+    if (!data) {
+      return {
+        ...values,
+        avatar: values.avatar
+          ? [{ uid: '-1', name: 'avatar.png', status: 'done', url: values.avatar }]
+          : [],
+      };
+    }
+    return {
+      ...data,
+      avatar: values.avatar
+        ? [{ uid: '-1', name: 'avatar.png', status: 'done', url: values.avatar }]
+        : [],
+    };
+  };
+
   return (
     <>
       {contextHolder}
       <ModalForm<API.SysUser>
-        title={intl.formatMessage({ id: 'pages.config.edit', defaultMessage: '编辑用户' })}
+        title={intl.formatMessage({ id: 'pages.common.edit' })}
         trigger={trigger}
         width={600}
         modalProps={{ okButtonProps: { loading } }}
-        initialValues={values}
+        request={getInfo}
         onFinish={async (formValues) => {
-          await run({ data: { ...values, ...formValues } });
+          await runEdit({ ...values, ...formValues });
           return true;
         }}
       >
         <ProFormText
           name="username"
-          label={<FormattedMessage id="pages.SysUser.search.username" defaultMessage="用户名" />}
-          placeholder="请输入用户名"
-          rules={[{ required: true, message: '请输入用户名' }]}
+          label={<FormattedMessage id="pages.SysUser.search.username" />}
+          rules={[
+            {
+              required: true,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.username',
+              ]),
+            },
+          ]}
         />
         <ProFormText
           name="nickname"
-          label={<FormattedMessage id="pages.SysUser.search.nickname" defaultMessage="昵称" />}
-          placeholder="请输入昵称"
+          label={<FormattedMessage id="pages.SysUser.search.nickname" />}
+          rules={[
+            {
+              required: true,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.nickname',
+              ]),
+            },
+          ]}
         />
         <ProFormText
           name="email"
-          label={<FormattedMessage id="pages.SysUser.search.email" defaultMessage="邮箱" />}
-          placeholder="请输入邮箱"
+          label={<FormattedMessage id="pages.SysUser.search.email" />}
+          rules={[
+            {
+              type: 'email',
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.email',
+              ]),
+            },
+          ]}
         />
         <ProFormText
           name="phone"
-          label={<FormattedMessage id="pages.SysUser.search.phone" defaultMessage="手机号" />}
-          placeholder="请输入手机号"
+          label={<FormattedMessage id="pages.SysUser.search.phone" />}
+          rules={[
+            {
+              pattern: /^1[3-9]\d{9}$/,
+              message: joinIntlMessages([
+                'pages.common.required.input',
+                'pages.SysUser.search.phone',
+              ]),
+            },
+          ]}
         />
         <ProFormRadio.Group
           name="gender"
-          label={<FormattedMessage id="pages.SysUser.search.gender" defaultMessage="性别" />}
+          label={<FormattedMessage id="pages.SysUser.search.gender" />}
           options={GenderEnum.options}
         />
         <ProFormRadio.Group
           name="status"
-          label={<FormattedMessage id="pages.SysUser.search.status" defaultMessage="帐号状态" />}
+          label={<FormattedMessage id="pages.SysUser.search.status" />}
           options={StatusEnum.options}
+        />
+        <ProFormUploadButton
+          name="avatar"
+          label={<FormattedMessage id="pages.SysUser.search.avatar" />}
+          max={1}
+          fieldProps={{
+            name: 'file',
+            listType: 'picture-circle',
+            showUploadList: true,
+            accept: 'image/*',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
+            },
+          }}
+          action="/api/common/file/upload"
+          transform={(value) => ({
+            avatar: value?.[0]?.response?.data || values.avatar || '',
+          })}
+          rules={[{ required: false }]}
         />
       </ModalForm>
     </>
