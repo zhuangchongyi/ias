@@ -10,7 +10,7 @@ const intl = getIntl();
  */
 export function joinIntlMessages(ids: string[], separator = '') {
   return ids
-    .map((id) => intl.formatMessage({ id }))
+    .map((id) => intl.formatMessage({ id, defaultMessage: id }))
     .filter(Boolean)
     .join(separator);
 }

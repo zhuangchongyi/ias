@@ -72,6 +72,15 @@ declare namespace API {
       loginDate?: string;
     };
   /**
+   * 用户人脸
+   */
+  type SysUserFace = BaseEntity & {
+    id?: number;
+    userId?: number;
+    fileUrl?: string;
+    userFaces?: Array;
+  };
+  /**
    * 角色
    */
   type SysRole = BaseEntity &

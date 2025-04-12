@@ -43,6 +43,7 @@ export default {
   'pages.common.search.updateBy': '更新人名称',
   'pages.common.search.updateTime': '更新时间',
   'pages.common.required.input': '请输入',
+  'pages.common.required.upload': '请上传',
 
   'pages.SysUser.search.id': '用户ID',
   'pages.SysUser.search.username': '用户名',
@@ -54,7 +55,9 @@ export default {
   'pages.SysUser.search.gender': '性别',
   'pages.SysUser.search.status': '帐号状态',
   'pages.SysUser.UploadFace.title': '人脸录入',
-  'pages.SysUser.UploadFace.userFace': '人脸',
+  'pages.SysUser.UploadFace.userFace': '人脸照片',
+  'pages.SysUser.UploadFace.required.minUserFace': '请至少上传3张图片',
+  'pages.SysUser.UploadFace.required.maxUserFace': '最多只能上传10张图片',
 
   'pages.SysRole.search.id': '角色ID',
   'pages.SysRole.search.roleKey': '角色标识',

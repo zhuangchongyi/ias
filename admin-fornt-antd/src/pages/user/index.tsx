@@ -12,6 +12,7 @@ import { Avatar, Button, Drawer, message, Modal } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
+import UploadFaceForm from './components/UploadFaceForm';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -172,16 +173,16 @@ const TableList: React.FC = () => {
           onOk={actionRef.current?.reload}
           values={row}
         />,
-        // <UploadFaceForm
-        //   trigger={
-        //     <a>
-        //       <FormattedMessage id="pages.SysUser.UploadFace.title" />
-        //     </a>
-        //   }
-        //   key="edit"
-        //   onOk={actionRef.current?.reload}
-        //   values={row}
-        // />,
+        <UploadFaceForm
+          trigger={
+            <a>
+              <FormattedMessage id="pages.SysUser.UploadFace.title" />
+            </a>
+          }
+          key="uplodaFace"
+          onOk={actionRef.current?.reload}
+          values={row}
+        />,
         <Button
           key="delete"
           type="text"

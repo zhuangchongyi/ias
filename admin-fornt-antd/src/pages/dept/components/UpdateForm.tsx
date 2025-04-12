@@ -20,7 +20,7 @@ interface UpdateFormProps {
 
 const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
   const intl = useIntl();
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, messageContextHolder] = message.useMessage();
 
   const { run: runEdit, loading } = useRequest(editSysDept, {
     manual: true,
@@ -50,7 +50,7 @@ const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
 
   return (
     <>
-      {contextHolder}
+      {messageContextHolder}
       <ModalForm<API.SysDept>
         title={intl.formatMessage({ id: 'pages.common.edit' })}
         trigger={trigger}

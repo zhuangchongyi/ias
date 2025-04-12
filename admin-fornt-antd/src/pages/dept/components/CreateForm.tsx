@@ -21,7 +21,7 @@ interface CreateFormProps {
 
 const CreateForm: FC<CreateFormProps> = ({ reload }) => {
   const intl = useIntl();
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, messageContextHolder] = message.useMessage();
   const formRef = useRef<ProFormInstance>();
 
   const { run: runAdd, loading } = useRequest(addSysDept, {
@@ -44,7 +44,7 @@ const CreateForm: FC<CreateFormProps> = ({ reload }) => {
 
   return (
     <>
-      {contextHolder}
+      {messageContextHolder}
       <ModalForm
         formRef={formRef}
         title={<FormattedMessage id="pages.common.add" />}

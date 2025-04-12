@@ -27,6 +27,13 @@ export default [
     component: '@/pages/Welcome',
   },
   {
+    layout: false,
+    path: '/mobile',
+    name: 'mobile',
+    icon: 'smile',
+    component: '@/pages/mobile',
+  },
+  {
     path: '/dashboard',
     name: 'dashboard',
     icon: 'dashboard',

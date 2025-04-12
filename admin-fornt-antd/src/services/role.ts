@@ -16,9 +16,9 @@ export async function pageSysRole(
   });
 }
 
-/** 更新角色 */
+/** 新建角色 */
 export async function addSysRole(data: API.SysRole, options?: { [key: string]: any }) {
-  return request<API.SysRole>('/sysRole/add', {
+  return request<API.R<API.SysRole>>('/sysRole/add', {
     method: 'POST',
     data: {
       ...data,
@@ -27,9 +27,9 @@ export async function addSysRole(data: API.SysRole, options?: { [key: string]: a
   });
 }
 
-/** 新建角色 */
+/** 更新角色 */
 export async function editSysRole(data: API.SysRole, options?: { [key: string]: any }) {
-  return request<API.SysRole>('/sysRole/edit', {
+  return request<API.R<API.SysRole>>('/sysRole/edit', {
     method: 'PUT',
     data: {
       ...data,
@@ -40,7 +40,7 @@ export async function editSysRole(data: API.SysRole, options?: { [key: string]: 
 
 /** 删除角色  */
 export async function removeSysRole(idList: any, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/sysRole/remove?idList=' + idList, {
+  return request<API.R<boolean>>('/sysRole/remove?idList=' + idList, {
     method: 'delete',
     data: {
       ...(options || {}),
@@ -50,7 +50,7 @@ export async function removeSysRole(idList: any, options?: { [key: string]: any 
 
 /** 查询角色明细  */
 export async function getSysRole(id: number, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/sysRole/get/' + id, {
+  return request<API.R<API.SysRole>>('/sysRole/get/' + id, {
     method: 'get',
     data: {
       ...(options || {}),

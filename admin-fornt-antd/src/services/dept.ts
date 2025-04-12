@@ -24,9 +24,9 @@ export async function enableListSysDept(params?: API.SysDept, options?: { [key: 
   });
 }
 
-/** 更新部门 */
+/** 新建部门 */
 export async function addSysDept(data: API.SysDept, options?: { [key: string]: any }) {
-  return request<API.SysDept>('/sysDept/add', {
+  return request<API.R<API.SysDept>>('/sysDept/add', {
     method: 'POST',
     data: {
       ...data,
@@ -35,9 +35,9 @@ export async function addSysDept(data: API.SysDept, options?: { [key: string]: a
   });
 }
 
-/** 新建部门 */
+/** 更新部门 */
 export async function editSysDept(data: API.SysDept, options?: { [key: string]: any }) {
-  return request<API.SysDept>('/sysDept/edit', {
+  return request<API.R<API.SysDept>>('/sysDept/edit', {
     method: 'PUT',
     data: {
       ...data,
@@ -48,7 +48,7 @@ export async function editSysDept(data: API.SysDept, options?: { [key: string]: 
 
 /** 删除部门  */
 export async function removeSysDept(idList: any, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/sysDept/remove?idList=' + idList, {
+  return request<API.R<boolean>>('/sysDept/remove?idList=' + idList, {
     method: 'delete',
     data: {
       ...(options || {}),
@@ -58,7 +58,7 @@ export async function removeSysDept(idList: any, options?: { [key: string]: any 
 
 /** 查询部门明细  */
 export async function getSysDept(id: number, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/sysDept/get/' + id, {
+  return request<API.R<API.SysDept>>('/sysDept/get/' + id, {
     method: 'get',
     data: {
       ...(options || {}),

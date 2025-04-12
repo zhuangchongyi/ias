@@ -1,4 +1,5 @@
 import { TOKEN_KEY } from '@/utils/constant';
+import { PlusOutlined } from '@ant-design/icons';
 import { ProFormUploadButton } from '@ant-design/pro-components';
 import { FormattedMessage } from '@umijs/max';
 
@@ -10,6 +11,8 @@ interface FormUploadButtonProps {
 export default function FormUploadButton(props: FormUploadButtonProps) {
   return (
     <ProFormUploadButton
+      icon={<PlusOutlined />}
+      title={null}
       name={props.name || 'avatar'}
       label={props.label || <FormattedMessage id="pages.SysUser.search.avatar" />}
       max={1}
@@ -23,10 +26,10 @@ export default function FormUploadButton(props: FormUploadButtonProps) {
         },
       }}
       action="/api/common/file/upload"
-      transform={(value) => {
-        let avatar = value?.[0]?.response?.data || '';
-        if (!avatar && value && value.length >= 0) {
-          avatar = value?.[0]?.url || '';
+      transform={(values) => {
+        let avatar = values?.[0]?.response?.data?.fileUrl || '';
+        if (!avatar && values && values.length >= 0) {
+          avatar = values?.[0]?.url || '';
         }
         return {
           avatar: avatar,
