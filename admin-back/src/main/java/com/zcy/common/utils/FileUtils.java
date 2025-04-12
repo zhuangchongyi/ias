@@ -47,7 +47,7 @@ public class FileUtils {
         }
         int beginIndex = originalFilename.lastIndexOf(StringUtils.DOT) + 1;
         if (originalFilename.length() == beginIndex) {
-            return ".png";
+            return "png";
         }
         return originalFilename.substring(beginIndex);
     }
@@ -61,17 +61,17 @@ public class FileUtils {
         String contentType = "application/octet-stream";
         if (StringUtils.isNotEmpty(fileType)) {
             switch (fileType) {
-                case ".jpg":
-                case ".jpeg":
+                case "jpg":
+                case "jpeg":
                     contentType = "image/jpeg";
                     break;
-                case ".png":
+                case "png":
                     contentType = "image/png";
                     break;
-                case ".gif":
+                case "gif":
                     contentType = "image/gif";
                     break;
-                case ".pdf":
+                case "pdf":
                     contentType = "application/pdf";
                     break;
                 default:

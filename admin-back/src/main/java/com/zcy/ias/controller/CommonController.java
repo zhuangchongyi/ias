@@ -76,7 +76,7 @@ public class CommonController {
     public void fileDownload(@PathVariable String fileId, HttpServletResponse response) {
         Optional.ofNullable(sysFileService.getById(FileUtils.getFileName(fileId))).ifPresent(sysFile -> {
             try {
-                String fileName = sysFile.getFileName() + sysFile.getFileType();
+                String fileName = sysFile.getFileName() + StringUtils.DOT + sysFile.getFileType();
                 response.setContentType("application/octet-stream; charset=UTF-8");
                 response.addHeader("Access-Control-Allow-Origin", "*");
                 response.setHeader("Content-Disposition", StringUtils.format("attachment; filename=\"{}\"",
