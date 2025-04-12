@@ -1,13 +1,8 @@
+import FormUploadButton from '@/components/Form/UploadButton';
 import { editSysUser, getSysUser } from '@/services/user';
 import { joinIntlMessages } from '@/utils';
-import { TOKEN_KEY } from '@/utils/constant';
 import { GenderEnum, StatusEnum } from '@/utils/enums';
-import {
-  ModalForm,
-  ProFormRadio,
-  ProFormText,
-  ProFormUploadButton,
-} from '@ant-design/pro-components';
+import { ModalForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { message } from 'antd';
 import { FC } from 'react';
@@ -127,25 +122,10 @@ const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
           label={<FormattedMessage id="pages.SysUser.search.status" />}
           options={StatusEnum.options}
         />
-        <ProFormUploadButton
+        <FormUploadButton
           name="avatar"
           label={<FormattedMessage id="pages.SysUser.search.avatar" />}
-          max={1}
-          fieldProps={{
-            name: 'file',
-            listType: 'picture-circle',
-            showUploadList: true,
-            accept: 'image/*',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
-            },
-          }}
-          action="/api/common/file/upload"
-          transform={(value) => ({
-            avatar: value?.[0]?.response?.data || values.avatar || '',
-          })}
-          rules={[{ required: false }]}
-        />
+        />{' '}
       </ModalForm>
     </>
   );

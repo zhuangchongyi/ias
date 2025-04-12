@@ -1,6 +1,6 @@
+import FormUploadButton from '@/components/Form/UploadButton';
 import { addSysUser } from '@/services/user';
 import { joinIntlMessages } from '@/utils';
-import { TOKEN_KEY } from '@/utils/constant';
 import { GenderEnum, StatusEnum } from '@/utils/enums';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -9,7 +9,6 @@ import {
   ProFormInstance,
   ProFormRadio,
   ProFormText,
-  ProFormUploadButton,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
@@ -130,32 +129,10 @@ const CreateForm: FC<CreateFormProps> = ({ reload }) => {
           options={StatusEnum.options}
           initialValue={1}
         />
-        <ProFormUploadButton
+        <FormUploadButton
           name="avatar"
           label={<FormattedMessage id="pages.SysUser.search.avatar" />}
-          max={1}
-          fieldProps={{
-            name: 'file',
-            listType: 'picture-circle',
-            showUploadList: true,
-            accept: 'image/*',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
-            },
-          }}
-          action="/api/common/file/upload"
-          transform={(value) => ({
-            avatar: value?.[0]?.response?.data || '',
-          })}
-          rules={[{ required: false }]}
-        >
-          <div>
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>
-              <FormattedMessage id="pages.common.upload" />
-            </div>
-          </div>
-        </ProFormUploadButton>
+        />
       </ModalForm>
     </>
   );

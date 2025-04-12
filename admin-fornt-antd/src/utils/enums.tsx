@@ -1,7 +1,8 @@
-import { FormattedMessage } from '@umijs/max';
+import { FormattedMessage, getIntl } from '@umijs/max';
 
+const intl = getIntl();
 export const buildEnum = <
-  T extends Record<number, { id: string; defaultMessage: string; color?: string }>,
+  T extends Record<number, { id: string; defaultMessage?: string; color?: string }>,
 >(
   map: T,
 ) => {
@@ -10,11 +11,11 @@ export const buildEnum = <
 
   Object.entries(map).forEach(([key, val]) => {
     const value = Number(key);
-    const text = <FormattedMessage id={val.id} defaultMessage={val.defaultMessage} />;
+    const text = <FormattedMessage id={val.id} />;
     valueEnum[value] = {
       text,
-      status: val.defaultMessage,
-      color: val.color || 'default',
+      status: intl.formatMessage({ id: val.id }),
+      color: val.color,
     };
     options.push({
       value,
@@ -29,11 +30,11 @@ export const buildEnum = <
 };
 
 export const GenderEnum = buildEnum({
-  0: { id: 'enums.gender.unknown', defaultMessage: '未知' },
-  1: { id: 'enums.gender.men', defaultMessage: '男' },
-  2: { id: 'enums.gender.women', defaultMessage: '女' },
+  0: { id: 'enums.gender.unknown' },
+  1: { id: 'enums.gender.men' },
+  2: { id: 'enums.gender.women' },
 });
 export const StatusEnum = buildEnum({
-  0: { id: 'enums.status.disable', defaultMessage: '禁用', color: 'red' },
-  1: { id: 'enums.status.enable', defaultMessage: '启用', color: 'green' },
+  0: { id: 'enums.status.disable', color: 'red' },
+  1: { id: 'enums.status.enable', color: 'green' },
 });
