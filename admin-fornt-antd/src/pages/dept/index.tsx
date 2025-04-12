@@ -154,9 +154,10 @@ const TableList: React.FC = () => {
           onOk={actionRef.current?.reload}
           values={row}
         />,
-        <a
+        <Button
           key="delete"
-          style={{ marginLeft: 16 }}
+          type="text"
+          danger
           onClick={async () => {
             modalApi.confirm({
               title: <FormattedMessage id="pages.common.confirm.delete" />,
@@ -167,7 +168,7 @@ const TableList: React.FC = () => {
           }}
         >
           <FormattedMessage id="pages.common.delete" />
-        </a>,
+        </Button>,
       ],
     },
   ];

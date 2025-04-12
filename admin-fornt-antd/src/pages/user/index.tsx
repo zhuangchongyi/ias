@@ -172,9 +172,20 @@ const TableList: React.FC = () => {
           onOk={actionRef.current?.reload}
           values={row}
         />,
-        <a
+        // <UploadFaceForm
+        //   trigger={
+        //     <a>
+        //       <FormattedMessage id="pages.SysUser.UploadFace.title" />
+        //     </a>
+        //   }
+        //   key="edit"
+        //   onOk={actionRef.current?.reload}
+        //   values={row}
+        // />,
+        <Button
           key="delete"
-          style={{ marginLeft: 16 }}
+          type="text"
+          danger
           onClick={async () => {
             modalApi.confirm({
               title: <FormattedMessage id="pages.common.confirm.delete" />,
@@ -185,7 +196,7 @@ const TableList: React.FC = () => {
           }}
         >
           <FormattedMessage id="pages.common.delete" />
-        </a>,
+        </Button>,
       ],
     },
   ];

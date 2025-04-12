@@ -29,19 +29,14 @@ const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
   });
 
   const getInfo = async () => {
-    const { data } = await getSysUser(values.id);
+    let { data } = await getSysUser(values.id);
     if (!data) {
-      return {
-        ...values,
-        avatar: values.avatar
-          ? [{ uid: '-1', name: 'avatar.png', status: 'done', url: values.avatar }]
-          : [],
-      };
+      data = values;
     }
     return {
       ...data,
-      avatar: values.avatar
-        ? [{ uid: '-1', name: 'avatar.png', status: 'done', url: values.avatar }]
+      avatar: data.avatar
+        ? [{ uid: '-1', name: 'avatar.png', status: 'done', url: data.avatar }]
         : [],
     };
   };

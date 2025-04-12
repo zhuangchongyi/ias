@@ -23,9 +23,15 @@ export default function FormUploadButton(props: FormUploadButtonProps) {
         },
       }}
       action="/api/common/file/upload"
-      transform={(value) => ({
-        avatar: value?.[0]?.response?.data || '',
-      })}
+      transform={(value) => {
+        let avatar = value?.[0]?.response?.data || '';
+        if (!avatar && value && value.length >= 0) {
+          avatar = value?.[0]?.url || '';
+        }
+        return {
+          avatar: avatar,
+        };
+      }}
       rules={[{ required: false }]}
     />
   );

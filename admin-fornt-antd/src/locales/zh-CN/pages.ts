@@ -53,8 +53,8 @@ export default {
   'pages.SysUser.search.phone': '手机号',
   'pages.SysUser.search.gender': '性别',
   'pages.SysUser.search.status': '帐号状态',
-  'pages.SysUser.search.loginIp': '最后登录IP',
-  'pages.SysUser.search.loginDate': '最后登录时间',
+  'pages.SysUser.UploadFace.title': '人脸录入',
+  'pages.SysUser.UploadFace.userFace': '人脸',
 
   'pages.SysRole.search.id': '角色ID',
   'pages.SysRole.search.roleKey': '角色标识',
