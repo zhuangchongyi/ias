@@ -1,5 +1,4 @@
 import { TOKEN_KEY } from '@/utils/constant';
-import { PlusOutlined } from '@ant-design/icons';
 import { ProFormUploadButton } from '@ant-design/pro-components';
 import { FormattedMessage } from '@umijs/max';
 
@@ -28,8 +27,6 @@ export default function FormUploadButton(props: FormUploadButtonProps) {
         avatar: value?.[0]?.response?.data || '',
       })}
       rules={[{ required: false }]}
-    >
-      <PlusOutlined />
-    </ProFormUploadButton>
+    />
   );
 }

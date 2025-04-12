@@ -125,7 +125,7 @@ const UpdateForm: FC<UpdateFormProps> = ({ trigger, values, onOk }) => {
         <FormUploadButton
           name="avatar"
           label={<FormattedMessage id="pages.SysUser.search.avatar" />}
-        />{' '}
+        />
       </ModalForm>
     </>
   );
