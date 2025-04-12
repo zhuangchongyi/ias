@@ -45,7 +45,11 @@ public class FileUtils {
         if (StringUtils.isEmpty(originalFilename) || !originalFilename.contains(StringUtils.DOT)) {
             return null;
         }
-        return originalFilename.substring(originalFilename.lastIndexOf(StringUtils.DOT));
+        int beginIndex = originalFilename.lastIndexOf(StringUtils.DOT) + 1;
+        if (originalFilename.length() == beginIndex) {
+            return ".png";
+        }
+        return originalFilename.substring(beginIndex);
     }
 
     /**

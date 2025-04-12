@@ -4,8 +4,8 @@ package com.zcy.ias.controller;
 import com.zcy.common.core.R;
 import com.zcy.common.utils.FileUtils;
 import com.zcy.common.utils.StringUtils;
-import com.zcy.ias.entity.SysFile;
 import com.zcy.ias.service.SysFileService;
+import com.zcy.ias.vo.SysFileVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +34,12 @@ public class CommonController {
      * @return token
      */
     @PostMapping("/file/upload")
-    public R<String> login(MultipartFile file) throws Exception {
+    public R<SysFileVO> login(MultipartFile file) throws Exception {
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null) {
             return R.fail("文件名格式不正确");
         }
-        SysFile sysFile = new SysFile();
+        SysFileVO sysFile = new SysFileVO();
         sysFile.setFileName(FileUtils.getFileName(originalFilename));
         sysFile.setFileType(FileUtils.getFileType(originalFilename));
         sysFile.setFileSize(file.getSize());
@@ -47,15 +47,17 @@ public class CommonController {
         sysFile.setFileData(fileData);
         sysFile.setFileId(FileUtils.calculateFileHash(fileData));
         sysFileService.save(sysFile);
-        return R.ok(StringUtils.format("/api/common/file/preview/{}", sysFile.getId()));
+        sysFile.setFileUrl(StringUtils.format("/api/common/file/preview/{}.{}", sysFile.getId(), sysFile.getFileType()));
+        return R.ok(sysFile);
     }
 
     /**
      * 文件预览
      */
     @GetMapping("/file/preview/{fileId}")
-    public void filePreview(@PathVariable String fileId, HttpServletResponse response) {
-        Optional.ofNullable(sysFileService.getById(fileId)).ifPresent(sysFile -> {
+    public void filePreview(@PathVariable("fileId") String fileId,
+                            HttpServletResponse response) {
+        Optional.ofNullable(sysFileService.getById(FileUtils.getFileName(fileId))).ifPresent(sysFile -> {
             try {
                 response.setContentType(FileUtils.getContentType(sysFile.getFileType()));
                 response.setContentLength(sysFile.getFileData().length);
@@ -72,7 +74,7 @@ public class CommonController {
      */
     @PostMapping("/file/download/{fileId}")
     public void fileDownload(@PathVariable String fileId, HttpServletResponse response) {
-        Optional.ofNullable(sysFileService.getById(fileId)).ifPresent(sysFile -> {
+        Optional.ofNullable(sysFileService.getById(FileUtils.getFileName(fileId))).ifPresent(sysFile -> {
             try {
                 String fileName = sysFile.getFileName() + sysFile.getFileType();
                 response.setContentType("application/octet-stream; charset=UTF-8");

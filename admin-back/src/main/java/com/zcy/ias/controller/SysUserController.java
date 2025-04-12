@@ -6,8 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zcy.common.core.R;
 import com.zcy.common.utils.SecurityUtils;
 import com.zcy.ias.entity.SysUser;
+import com.zcy.ias.service.SysUserFaceService;
 import com.zcy.ias.service.SysUserService;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +22,16 @@ import java.util.List;
  * @author zhuangchongyi
  * @since 2025-03-25 18:23:13
  */
+@Validated
 @RestController
 @RequestMapping("/sysUser")
 public class SysUserController {
 
     @Resource
     private SysUserService sysUserService;
+
+    @Resource
+    private SysUserFaceService sysUserFaceService;
 
     /**
      * 分页查询所有用户表数据
@@ -83,6 +90,25 @@ public class SysUserController {
     @DeleteMapping("/remove")
     public R<Boolean> delete(@RequestParam("idList") List<Long> idList) {
         return R.ok(this.sysUserService.removeByIds(idList));
+    }
+
+    /**
+     * 上传用户人脸
+     *
+     * @param list 数据
+     */
+    @PostMapping("/addUserFace/{userId}")
+    public R<Boolean> addUserFace(@PathVariable("userId") Long userId,
+                                  @RequestBody @Valid @NotEmpty(message = "用户人脸列表不能为空") List<String> list) {
+        return R.ok(this.sysUserFaceService.addUserFace(userId, list));
+    }
+
+    /**
+     * 获取用户人脸
+     */
+    @GetMapping("/getUserFace/{userId}")
+    public R<List<String>> getUserFace(@PathVariable("userId") Long userId) {
+        return R.ok(this.sysUserFaceService.getUserFace(userId));
     }
 }
 

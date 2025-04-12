@@ -28,7 +28,7 @@ CREATE TABLE sys_user
 
 
 insert into sys_user(id, username, password, nickname, avatar)
-values (1, 'admin', '$2a$10$agPA/b0ntfiEEMHm51OIs.tx/NQxUyoIUwor95BfoafmMw9iltJQS', '超级管理员',
+values (1, 'admin', '$2a$10$agPA/b0ntfiEEMHm51OIs.tx/NQxUyoIUwor95BfoafmMw9iltJQS', '系统管理员',
         'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png')
 ;
 
@@ -84,4 +84,19 @@ create table sys_file
     update_time DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
 ) comment '文件表';
+
+drop table if exists sys_user_face;
+create table sys_user_face
+(
+    id          bigint auto_increment primary key comment 'ID',
+    user_id     bigint comment '用户ID',
+    file_url    varchar(255) comment '文件地址url',
+    create_id   bigint COMMENT '创建人ID',
+    create_by   VARCHAR(50) COMMENT '创建人名称',
+    create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_id   bigint COMMENT '更新人ID',
+    update_by   VARCHAR(50) COMMENT '更新人名称',
+    update_time DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
+) comment '用户人脸记录表';
 
