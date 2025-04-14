@@ -119,7 +119,7 @@ const salesTypeDataOffline = [
 const offlineData = [];
 for (let i = 0; i < 10; i += 1) {
   offlineData.push({
-    name: `Stores ${i+1}`,
+    name: `Stores ${i + 1}`,
     cvr: Math.ceil(Math.random() * 9) / 10,
   });
 }
@@ -199,8 +199,6 @@ const getFakeChartData: AnalysisData = {
 };
 
 const mockFakeChartData = (req?: any, res?: any) => {
-  console.log(req);
-  console.log(res);
   return {
     data: getFakeChartData,
   };

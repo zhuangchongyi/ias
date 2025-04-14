@@ -1,5 +1,4 @@
 export default {
-  'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',
@@ -30,6 +29,7 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+  'menu.Home': '首页',
   'menu.UserList': '用户列表',
   'menu.RoleList': '角色列表',
   'menu.DeptList': '部门列表',

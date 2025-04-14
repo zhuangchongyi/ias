@@ -6,7 +6,7 @@ import ProfileTab from './tabs/ProfileTab';
 import PunchCardTab from './tabs/PunchCardTab';
 import RecordTab from './tabs/RecordTab';
 
-const Index: React.FC = () => {
+const MobileIndex: React.FC = () => {
   const [activeKey, setActiveKey] = useState('punchCard');
 
   const tabs = [
@@ -44,4 +44,6 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default () => {
+  return <MobileIndex />;
+};

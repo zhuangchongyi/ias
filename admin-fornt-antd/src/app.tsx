@@ -1,7 +1,7 @@
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
 import { errorConfig } from '@/requestErrorConfig';
 import { getCurrentUser } from '@/services/auth';
-import { TOKEN_KEY } from '@/utils/constant';
+import { isMobile, TOKEN_KEY } from '@/utils/constant';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
@@ -87,7 +87,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         initialState?.currentUser?.avatar ||
         'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
       title: <AvatarName />,
-      render: (_: any, avatarChildren: any) => {
+      render: (_dom: any, avatarChildren: any) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
@@ -97,10 +97,18 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
+      const pathname = location.pathname;
       const token = localStorage.getItem(TOKEN_KEY);
+      console.log('onPageChange', isMobile(), pathname);
+
       // 如果没有登录，重定向到 login
-      if (!token && location.pathname !== loginPath) {
+      if (!token && pathname !== loginPath) {
         history.push(loginPath);
+      }
+
+      // 如果是移动端且不是在 /mobile 开头，跳转到 /mobile
+      if (isMobile() && !pathname.startsWith('/mobile')) {
+        history.replace('/mobile');
       }
     },
     bgLayoutImgList: [],

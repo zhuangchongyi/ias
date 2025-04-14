@@ -78,7 +78,7 @@ const TopSearch = ({
   return (
     <Card
       loading={loading}
-      bordered={false}
+      variant="borderless"
       title="线上热门搜索"
       extra={dropdownGroup}
       style={{

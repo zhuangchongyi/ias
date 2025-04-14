@@ -13,7 +13,9 @@
 export default [
   {
     path: '/',
-    redirect: '/welcome',
+    name: 'Home',
+    icon: 'smile',
+    component: '@/pages/Home',
   },
   {
     layout: false,
@@ -21,13 +23,8 @@ export default [
     component: '@/pages/login',
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: '@/pages/Welcome',
-  },
-  {
     layout: false,
+    hideInMenu: true,
     path: '/mobile',
     name: 'mobile',
     icon: 'smile',
