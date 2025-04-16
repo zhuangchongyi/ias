@@ -1,0 +1,49 @@
+.punch-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.punch-button-container {
+  margin: 24px 0;
+}
+
+.punch-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.camera-mask {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.camera-preview {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+.status-container {
+  margin: 24px 0;
+  text-align: center;
+}
+
+.status-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+}

@@ -2,9 +2,9 @@ import { TabBar } from 'antd-mobile';
 import { AppOutline, UnorderedListOutline, UserOutline } from 'antd-mobile-icons';
 import React, { useState } from 'react';
 
-import ProfileTab from './tabs/ProfileTab';
-import PunchCardTab from './tabs/PunchCardTab';
-import RecordTab from './tabs/RecordTab';
+import ProfileTab from './tabs/Profile';
+import PunchCardTab from './tabs/PunchCard';
+import RecordTab from './tabs/Record';
 
 const MobileIndex: React.FC = () => {
   const [activeKey, setActiveKey] = useState('punchCard');
