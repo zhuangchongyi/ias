@@ -31,16 +31,11 @@ const ProfileTab: React.FC = () => {
   };
 
   const handleAboutUs = () => {
-    Dialog.alert({
-      title: '关于我们',
-      content: '这是一个关于我们的弹窗，您可以添加更多内容。',
-      confirmText: '确定',
-    });
+    Toast.show('敬请期待');
   };
 
   const handleEditProfile = () => {
-    Toast.show('跳转到编辑资料页面');
-    // history.push('/edit-profile');
+    Toast.show('敬请期待');
   };
 
   return (

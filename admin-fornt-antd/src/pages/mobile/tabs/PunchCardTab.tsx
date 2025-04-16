@@ -1,4 +1,5 @@
 import { useModel } from '@umijs/max';
+import type { ImageUploadItem } from 'antd-mobile';
 import { Button, ImageUploader, Toast } from 'antd-mobile';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -19,7 +20,7 @@ const PunchCardTab: React.FC = () => {
       }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' },
+          video: { facingMode: 'user' }, // 使用前置摄像头
         });
         streamRef.current = stream;
         if (videoRef.current) {
@@ -94,6 +95,7 @@ const PunchCardTab: React.FC = () => {
         preview
         showUpload={false}
         style={{ marginTop: 20 }}
+        upload={() => Promise.resolve({} as ImageUploadItem)}
       />
     </div>
   );
