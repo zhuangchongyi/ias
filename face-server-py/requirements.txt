@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+numpy
+pydantic
+onnxruntime
+insightface==0.7.3
+opencv-python
+pymilvus==2.3.2
+python-multipart
