@@ -1,6 +1,6 @@
 import { TabBar } from 'antd-mobile';
 import { AppOutline, UnorderedListOutline, UserOutline } from 'antd-mobile-icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ProfileTab from './tabs/Profile';
 import PunchCardTab from './tabs/PunchCard';
@@ -8,6 +8,7 @@ import RecordTab from './tabs/Record';
 
 const MobileIndex: React.FC = () => {
   const [activeKey, setActiveKey] = useState('punchCard');
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   const tabs = [
     {
@@ -30,9 +31,19 @@ const MobileIndex: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, overflow: 'auto' }}>
+    <div style={{ height: `${viewportHeight}px`, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, overflow: 'auto',background: '#F1F2F8'}}>
         {tabs.find((tab) => tab.key === activeKey)?.component}
       </div>
       <TabBar activeKey={activeKey} onChange={setActiveKey}>
