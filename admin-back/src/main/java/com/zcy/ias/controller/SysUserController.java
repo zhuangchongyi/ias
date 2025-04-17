@@ -8,11 +8,13 @@ import com.zcy.common.utils.SecurityUtils;
 import com.zcy.ias.entity.SysUser;
 import com.zcy.ias.service.SysUserFaceService;
 import com.zcy.ias.service.SysUserService;
+import com.zcy.ias.vo.SysFileVO;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -97,8 +99,8 @@ public class SysUserController {
      *
      * @param list 数据
      */
-    @PostMapping("/addUserFace/{userId}")
-    public R<Boolean> addUserFace(@PathVariable("userId") Long userId,
+    @PostMapping("/addUserFace")
+    public R<Boolean> addUserFace(@RequestParam("userId") Long userId,
                                   @RequestBody @Valid @NotEmpty(message = "用户人脸列表不能为空") List<String> list) {
         return R.ok(this.sysUserFaceService.addUserFace(userId, list));
     }
@@ -106,9 +108,21 @@ public class SysUserController {
     /**
      * 获取用户人脸
      */
-    @GetMapping("/getUserFace/{userId}")
-    public R<List<String>> getUserFace(@PathVariable("userId") Long userId) {
+    @GetMapping("/getUserFace")
+    public R<List<String>> getUserFace(@RequestParam("userId") Long userId) {
         return R.ok(this.sysUserFaceService.getUserFace(userId));
     }
+
+    /**
+     * 上传用户人脸
+     *
+     * @param file 人脸图像数据
+     */
+    @PostMapping("/uploadUserFace")
+    public R<SysFileVO> uploadUserFace(@RequestParam("userId") Long userId,
+                                       MultipartFile file) {
+        return R.ok(this.sysUserFaceService.uploadUserFace(userId, file));
+    }
+
 }
 
