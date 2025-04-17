@@ -1,4 +1,5 @@
 import { Button, Mask, Toast } from 'antd-mobile';
+import { CheckCircleFill } from 'antd-mobile-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
 
@@ -61,6 +62,9 @@ const PunchCard: React.FC = () => {
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play();
+        };
       }
     } catch (err) {
       console.error('摄像头获取失败:', err);
@@ -124,7 +128,7 @@ const PunchCard: React.FC = () => {
             className="punch-button"
             onClick={handleOpenMask}
             style={{
-              border: '3px solid #f0ad4e',
+              border: '10px solid #f0ad4e',
               borderRadius: '50%',
               width: 150,
               height: 150,
@@ -159,7 +163,7 @@ const PunchCard: React.FC = () => {
 
         {/* 上下班时间提示 */}
         <div className="time-range">
-          上班09:00 <span style={{ color: 'green' }}>✔</span> — 下班18:00<span style={{ color: 'green' }}>✔</span>
+          上班09:00 <span style={{ color: 'green' }}><CheckCircleFill /></span> — 下班18:00<span style={{ color: 'green' }}><CheckCircleFill /></span>
         </div>
       </div>
     </>
