@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
+from fastapi import UploadFile
 from insightface.app import FaceAnalysis
-from fastapi import UploadFile, HTTPException
 
 
 class FaceEngine:
@@ -13,9 +13,9 @@ class FaceEngine:
         img_bytes = np.frombuffer(file.file.read(), np.uint8)
         img = cv2.imdecode(img_bytes, cv2.IMREAD_COLOR)
         if img is None:
-            raise HTTPException(status_code=400, detail="Invalid image format")
+            raise Exception("图像格式无效")
 
         faces = self.model.get(img)
         if not faces:
-            raise HTTPException(status_code=400, detail="No face detected")
+            raise Exception("没有检测到人脸")
         return faces[0].embedding
