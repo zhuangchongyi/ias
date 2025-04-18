@@ -147,7 +147,7 @@ const PunchCard: React.FC = () => {
           </Button>
         </div>
 
-        {/* 蒙版 */}
+        {/* 背景蒙层 */}
         {isMaskVisible && (
           <Mask visible={isMaskVisible} onMaskClick={handleCloseMask}>
             <div className="camera-mask">

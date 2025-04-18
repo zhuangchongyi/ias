@@ -58,6 +58,9 @@ export default {
   'pages.SysUser.UploadFace.userFace': '人脸照片',
   'pages.SysUser.UploadFace.required.minUserFace': '请至少上传3张图片',
   'pages.SysUser.UploadFace.required.maxUserFace': '最多只能上传10张图片',
+  'pages.SysUser.UploadFace.TakePhotoUpload': '拍照上传',
+  'pages.SysUser.UploadFace.TakePhotoUploadErrorMsg':
+    '当前设备不支持拍照，请检查摄像头设置货使用上传功能',
 
   'pages.SysRole.search.id': '角色ID',
   'pages.SysRole.search.roleKey': '角色标识',

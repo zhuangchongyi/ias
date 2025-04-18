@@ -6,4 +6,5 @@ export default {
   'message.operation.success': '操作成功',
   'message.operation.failure': '操作失败',
   'message.please.select.delete.item': '请选择删除项',
+  'message.operation.upload.failure': '上传失败',
 };
