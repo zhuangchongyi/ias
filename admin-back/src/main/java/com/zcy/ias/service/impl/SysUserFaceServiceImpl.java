@@ -38,7 +38,6 @@ public class SysUserFaceServiceImpl extends ServiceImpl<SysUserFaceMapper, SysUs
     public Boolean addUserFace(Long userId, List<SysUserFace> list) {
         List<Long> oldIdList = list.stream().map(SysUserFace::getId).filter(Objects::nonNull).toList();
         List<SysUserFace> oldList = this.list(new LambdaQueryWrapper<SysUserFace>()
-                .select(SysUserFace::getId)
                 .eq(SysUserFace::getUserId, userId)
                 .notIn(StringUtils.isNotEmpty(oldIdList), SysUserFace::getId, oldIdList));
         // 删除旧数据
@@ -46,6 +45,9 @@ public class SysUserFaceServiceImpl extends ServiceImpl<SysUserFaceMapper, SysUs
             this.removeByIds(oldList.stream().map(SysUserFace::getId).toList());
             faceServerClient.deleteFace(userId, oldList.stream().map(SysUserFace::getFaceId).toList());
         }
+
+        // TODO 这里可以加个校验当前添加的人脸数据是否都为同一个人
+
         // 新增数据
         List<SysUserFace> faceList = list.stream()
                 .filter(item -> Objects.isNull(item.getId()))

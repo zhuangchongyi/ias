@@ -64,8 +64,8 @@ public class FaceServerClient {
      */
     public void deleteFace(Long userId, List<String> idList) {
         HashMap<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("userId", userId);
-        bodyMap.put("idList", idList);
+        bodyMap.put("user_id", userId);
+        bodyMap.put("id_list", idList);
         WebClient.ResponseSpec response = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/delete_face")
