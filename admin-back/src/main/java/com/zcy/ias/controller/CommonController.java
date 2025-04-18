@@ -34,21 +34,12 @@ public class CommonController {
      * @return token
      */
     @PostMapping("/file/upload")
-    public R<SysFileVO> login(MultipartFile file) throws Exception {
+    public R<SysFileVO> fileUpload(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null) {
             return R.fail("文件名格式不正确");
         }
-        SysFileVO sysFile = new SysFileVO();
-        sysFile.setFileName(FileUtils.getFileName(originalFilename));
-        sysFile.setFileType(FileUtils.getFileType(originalFilename));
-        sysFile.setFileSize(file.getSize());
-        byte[] fileData = file.getBytes();
-        sysFile.setFileData(fileData);
-        sysFile.setFileId(FileUtils.calculateFileHash(fileData));
-        sysFileService.save(sysFile);
-        sysFile.setFileUrl(StringUtils.format("/api/common/file/preview/{}.{}", sysFile.getId(), sysFile.getFileType()));
-        return R.ok(sysFile);
+        return R.ok(sysFileService.fileUpload(file));
     }
 
     /**

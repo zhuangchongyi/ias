@@ -60,7 +60,7 @@ export async function getSysUser(id: number, options?: { [key: string]: any }) {
 
 /** 上传用户人脸 */
 export async function addUserFace(id: number, data: Array<string>) {
-  return request<API.R<boolean>>('/sysUser/addUserFace/' + id, {
+  return request<API.R<boolean>>('/sysUser/addUserFace?userId=' + id, {
     method: 'POST',
     data: data,
   });
@@ -68,7 +68,7 @@ export async function addUserFace(id: number, data: Array<string>) {
 
 /** 获取用户人脸  */
 export async function getUserFace(id: number, options?: { [key: string]: any }) {
-  return request<API.R<Array<string>>>('/sysUser/getUserFace/' + id, {
+  return request<API.R<Array<string>>>('/sysUser/getUserFace?userId=' + id, {
     method: 'get',
     data: {
       ...(options || {}),

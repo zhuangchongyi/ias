@@ -163,7 +163,14 @@ const PunchCard: React.FC = () => {
 
         {/* 上下班时间提示 */}
         <div className="time-range">
-          上班09:00 <span style={{ color: 'green' }}><CheckCircleFill /></span> — 下班18:00<span style={{ color: 'green' }}><CheckCircleFill /></span>
+          上班09:00{' '}
+          <span style={{ color: 'green' }}>
+            <CheckCircleFill />
+          </span>{' '}
+          — 下班18:00
+          <span style={{ color: 'green' }}>
+            <CheckCircleFill />
+          </span>
         </div>
       </div>
     </>
