@@ -33,6 +33,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             sysFile.setFileId(FileUtils.calculateFileHash(fileData));
             this.save(sysFile);
             sysFile.setFileUrl(StringUtils.format("/api/common/file/preview/{}.{}", sysFile.getId(), sysFile.getFileType()));
+            sysFile.setFileData(null);
             return sysFile;
         } catch (Exception e) {
             throw new ServiceException(e.getMessage());

@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 @Data
 public class R<T> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * 成功
      */
@@ -15,12 +18,18 @@ public class R<T> implements Serializable {
      * 失败
      */
     public static final int FAIL = 500;
-    @Serial
-    private static final long serialVersionUID = 1L;
+
+    /**
+     * 状态码
+     */
     private int code;
-
+    /**
+     * 消息提示
+     */
     private String msg;
-
+    /**
+     * 数据对象
+     */
     private T data;
 
     public static <T> R<T> ok() {

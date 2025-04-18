@@ -17,5 +17,10 @@ public class SysFileVO extends SysFile {
      * 文件地址url
      */
     private String fileUrl;
+    /**
+     * 其他数据
+     */
+    private Object otherData;
+
 }
 

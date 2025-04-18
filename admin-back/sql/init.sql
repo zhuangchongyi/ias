@@ -91,6 +91,7 @@ create table sys_user_face
     id          bigint auto_increment primary key comment 'ID',
     user_id     bigint comment '用户ID',
     file_url    varchar(255) comment '文件地址url',
+    face_id varchar(255) comment '人脸数据ID',
     create_id   bigint COMMENT '创建人ID',
     create_by   VARCHAR(50) COMMENT '创建人名称',
     create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
