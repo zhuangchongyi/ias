@@ -39,7 +39,7 @@ const ProfileTab: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: 24, textAlign: 'center' }}>
+    <div style={{ padding: 24, textAlign: 'center', margin: '10px',backgroundColor: '#fff',borderRadius: '8px', height: 'calc(100% - 20px)'}}>
       <Space direction="vertical" align="center">
         <Avatar
           src={

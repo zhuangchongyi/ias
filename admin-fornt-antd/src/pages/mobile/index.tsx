@@ -45,7 +45,7 @@ const MobileIndex: React.FC = () => {
 
   return (
     <div style={{ height: `${viewportHeight}px`, display: 'flex', flexDirection: 'column' }}>
-      <NavBar backArrow={false}>{currentTitle}</NavBar>
+      <NavBar backIcon={false} style={{ background: '#1677ff', color: '#fff'}}>{currentTitle}</NavBar>
       <div style={{ flex: 1, overflow: 'auto', background: '#F1F2F8' }}>
         {tabs.find((tab) => tab.key === activeKey)?.component}
       </div>
