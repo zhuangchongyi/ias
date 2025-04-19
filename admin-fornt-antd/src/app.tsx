@@ -10,6 +10,7 @@ import defaultSettings from '../config/defaultSettings';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
+const whitePaths = ['/FaceCheckIn'];
 
 type AppInitialState = {
   loading?: boolean;
@@ -35,8 +36,19 @@ const getFetchUserInfo = async () => {
  * */
 export async function getInitialState(): Promise<AppInitialState> {
   const { location } = history;
+  const pathname = location.pathname;
   const token = localStorage.getItem(TOKEN_KEY);
   const settingsConfig = defaultSettings as Partial<LayoutSettings>;
+  console.log('getInitialState', isMobile(), pathname);
+
+  // 白名单放行
+  if (whitePaths.includes(pathname)) {
+    history.push(pathname);
+    return {
+      settings: settingsConfig,
+    };
+  }
+
   // 未登录，且不是在登录页，跳转登录页
   if (!token && location.pathname !== loginPath) {
     history.push(loginPath);
@@ -100,6 +112,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       const pathname = location.pathname;
       const token = localStorage.getItem(TOKEN_KEY);
       console.log('onPageChange', isMobile(), pathname);
+      // 白名单放行
+      if (whitePaths.includes(pathname)) {
+        history.push(loginPath);
+        return;
+      }
 
       // 如果没有登录，重定向到 login
       if (!token && pathname !== loginPath) {

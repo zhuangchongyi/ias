@@ -37,6 +37,14 @@ export default [
     component: '@/pages/dashboard',
   },
   {
+    layout: false,
+    hideInMenu: true,
+    path: '/FaceCheckIn',
+    name: 'FaceCheckIn',
+    icon: 'FaceCheckIn',
+    component: '@/pages/mobile/FaceCheckIn',
+  },
+  {
     path: '*',
     layout: false,
     component: '@/pages/404',
