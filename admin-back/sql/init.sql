@@ -91,7 +91,7 @@ create table sys_user_face
     id          bigint auto_increment primary key comment 'ID',
     user_id     bigint comment '用户ID',
     file_url    varchar(255) comment '文件地址url',
-    face_id varchar(255) comment '人脸数据ID',
+    face_id varchar(36) comment '人脸数据ID',
     create_id   bigint COMMENT '创建人ID',
     create_by   VARCHAR(50) COMMENT '创建人名称',
     create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -101,3 +101,41 @@ create table sys_user_face
     del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
 ) comment '用户人脸记录表';
 
+drop table if exists sys_user_attendance_record;
+CREATE TABLE sys_user_attendance_record
+(
+    id           bigint auto_increment primary key comment 'ID',
+    user_id      bigint     not null comment '用户ID',
+    punch_source tinyint(1) not null COMMENT '打卡来源（1自动 2补卡）',
+    punch_type   tinyint(1) not null COMMENT '打卡类型（1上班打卡 2迟到打卡 3下班打卡）',
+    punch_mode   tinyint(1) not null COMMENT '打卡方式（1人脸打卡 2定位打卡）',
+    punch_time   DATETIME   not null COMMENT '打卡时间',
+    face_id      varchar(36) comment '人脸打卡时的人脸数据ID',
+    location     VARCHAR(255) COMMENT '打卡位置（用于定位打卡）',
+    create_id    bigint COMMENT '创建人ID',
+    create_by    VARCHAR(50) COMMENT '创建人名称',
+    create_time  DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_id    bigint COMMENT '更新人ID',
+    update_by    VARCHAR(50) COMMENT '更新人名称',
+    update_time  DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    del_flag     tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
+) COMMENT ='用户打卡记录表';
+
+DROP TABLE IF EXISTS sys_user_repair_record;
+CREATE TABLE sys_user_repair_record
+(
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
+    user_id       BIGINT     NOT NULL COMMENT '用户ID',
+    attendance_id BIGINT     NOT NULL COMMENT '打卡记录ID',
+    repair_type   TINYINT(1) NOT NULL COMMENT '补卡类型（1上班 2下班）',
+    repair_time   DATETIME   NOT NULL COMMENT '补卡时间',
+    reason        VARCHAR(255) COMMENT '补卡原因',
+    status        TINYINT(1) DEFAULT 0 COMMENT '审核状态（0待审核 1已通过 2已拒绝）',
+    create_id     BIGINT COMMENT '创建人ID',
+    create_by     VARCHAR(50) COMMENT '创建人名称',
+    create_time   DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_id     BIGINT COMMENT '更新人ID',
+    update_by     VARCHAR(50) COMMENT '更新人名称',
+    update_time   DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    del_flag      TINYINT(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
+) COMMENT = '用户补卡记录表';

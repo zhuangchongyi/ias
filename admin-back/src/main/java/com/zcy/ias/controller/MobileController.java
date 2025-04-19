@@ -2,6 +2,7 @@ package com.zcy.ias.controller;
 
 
 import com.zcy.common.core.R;
+import com.zcy.ias.entity.SysUser;
 import com.zcy.ias.service.SysUserFaceService;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -31,9 +32,8 @@ public class MobileController {
      * @param file 人脸图像数据
      */
     @PostMapping("/checkFaceExists")
-    public R<Object> checkFaceExists(@RequestParam("userId") Long userId,
-                                     @RequestParam("file") MultipartFile file) {
-        return R.ok(this.sysUserFaceService.checkFaceExists(userId, file));
+    public R<SysUser> checkFaceExists(@RequestParam("file") MultipartFile file) {
+        return this.sysUserFaceService.checkFaceExists(file);
     }
 
 }

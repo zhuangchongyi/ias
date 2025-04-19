@@ -2,6 +2,7 @@ package com.zcy.ias.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zcy.common.core.R;
+import com.zcy.ias.entity.SysUser;
 import com.zcy.ias.entity.SysUserFace;
 import com.zcy.ias.vo.SysFileVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,6 @@ public interface SysUserFaceService extends IService<SysUserFace> {
     /**
      * 上传用户人脸校验是否存在
      */
-    R<Object> checkFaceExists(Long userId, MultipartFile file);
+    R<SysUser> checkFaceExists(MultipartFile file);
 }
 

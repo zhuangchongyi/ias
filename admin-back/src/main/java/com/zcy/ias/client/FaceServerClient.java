@@ -1,7 +1,9 @@
 package com.zcy.ias.client;
 
 import com.zcy.common.core.R;
+import com.zcy.ias.vo.FaceData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -28,7 +30,9 @@ public class FaceServerClient {
     /**
      * 注册人脸
      */
-    public R<?> registerFace(Long userId, MultipartFile file) {
+    public R<String> registerFace(Long userId, MultipartFile file) {
+        ParameterizedTypeReference<R<String>> typeReference = new ParameterizedTypeReference<>() {
+        };
         WebClient.ResponseSpec response = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/register_face")
@@ -37,7 +41,7 @@ public class FaceServerClient {
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(this.getMultiValueMap(file)))
                 .retrieve();
-        R<?> r = response.bodyToMono(R.class).block();
+        R<String> r = response.bodyToMono(typeReference).block();
         log.info("注册人脸:{}", r);
         return r;
     }
@@ -45,16 +49,17 @@ public class FaceServerClient {
     /**
      * 比较人脸数据
      */
-    public R<?> compareFace(Long userId, MultipartFile file) {
+    public R<FaceData> compareFace(MultipartFile file) {
         WebClient.ResponseSpec response = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/register_face")
-                        .queryParam("user_id", userId)
                         .build())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(this.getMultiValueMap(file)))
                 .retrieve();
-        R<?> r = response.bodyToMono(R.class).block();
+        ParameterizedTypeReference<R<FaceData>> elementTypeRef = new ParameterizedTypeReference<>() {
+        };
+        R<FaceData> r = response.bodyToMono(elementTypeRef).block();
         log.info("比较人脸数据:{}", r);
         return r;
     }

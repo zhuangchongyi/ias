@@ -6,10 +6,13 @@ import com.zcy.common.core.R;
 import com.zcy.common.exception.ServiceException;
 import com.zcy.common.utils.StringUtils;
 import com.zcy.ias.client.FaceServerClient;
+import com.zcy.ias.entity.SysUser;
 import com.zcy.ias.entity.SysUserFace;
 import com.zcy.ias.mapper.SysUserFaceMapper;
 import com.zcy.ias.service.SysFileService;
 import com.zcy.ias.service.SysUserFaceService;
+import com.zcy.ias.service.SysUserService;
+import com.zcy.ias.vo.FaceData;
 import com.zcy.ias.vo.SysFileVO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,8 @@ public class SysUserFaceServiceImpl extends ServiceImpl<SysUserFaceMapper, SysUs
     private FaceServerClient faceServerClient;
     @Resource
     private SysFileService sysFileService;
+    @Resource
+    private SysUserService sysUserService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -68,12 +73,13 @@ public class SysUserFaceServiceImpl extends ServiceImpl<SysUserFaceMapper, SysUs
     @Override
     public SysFileVO uploadUserFace(Long userId, MultipartFile file) {
         // 验证注册人脸
-        R<?> validR = faceServerClient.registerFace(userId, file);
-        if (validR.isSuccess() && Objects.nonNull(validR.getData())) {
+        R<String> validR = faceServerClient.registerFace(userId, file);
+        String faceId = validR.getData();
+        if (validR.isSuccess() && StringUtils.isNotEmpty(faceId)) {
             // 文件上传
             SysFileVO sysFileVO = sysFileService.fileUpload(file);
             // 保存人脸数据ID
-            sysFileVO.setOtherData(validR.getData());
+            sysFileVO.setOtherData(faceId);
             return sysFileVO;
         } else {
             throw new ServiceException(validR.getMsg());
@@ -81,13 +87,20 @@ public class SysUserFaceServiceImpl extends ServiceImpl<SysUserFaceMapper, SysUs
     }
 
     @Override
-    public R<Object> checkFaceExists(Long userId, MultipartFile file) {
+    public R<SysUser> checkFaceExists(MultipartFile file) {
         // 验证人脸是否存在
-        R<?> validR = faceServerClient.compareFace(userId, file);
-        if (validR.isSuccess() && Optional.ofNullable(validR.getData())
-                .map(o -> Boolean.parseBoolean(o.toString()))
-                .orElse(false)) {
-            return R.ok(validR.getData());
+        R<FaceData> validR = faceServerClient.compareFace(file);
+        FaceData faceData = validR.getData();
+        if (validR.isSuccess()) {
+            SysUser sysUser = Optional.ofNullable(faceData)
+                    .map(FaceData::getUserId)
+                    .map(sysUserService::getById)
+                    .orElseThrow(() -> new ServiceException("用户信息不存在"));
+            // TODO 校验是否已经打过卡
+            // 已打卡-更新打卡记录
+            // 未打卡-新建打卡记录
+
+            return R.ok(sysUser);
         } else {
             return R.fail(validR.getMsg());
         }
