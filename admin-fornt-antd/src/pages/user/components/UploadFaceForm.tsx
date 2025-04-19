@@ -129,11 +129,11 @@ const UploadFaceForm: FC<UploadFaceFormProps> = ({ trigger, values, onOk }) => {
       >
         {hasCamera ? (
           <Button icon={<CameraOutlined />} onClick={handleTakePhoto} style={{ marginBottom: 12 }}>
-            <FormattedMessage id="pages.SysUser.UploadFace.TakePhotoUpload" />
+            <FormattedMessage id="pages.SysUser.UploadFace.TakePhoto" />
           </Button>
         ) : (
           <Tag icon={<CloseCircleOutlined />} color="error">
-            <FormattedMessage id="pages.SysUser.UploadFace.TakePhotoUploadErrorMsg" />
+            <FormattedMessage id="pages.SysUser.UploadFace.TakePhotoErrorMsg" />
           </Tag>
         )}
 
