@@ -4,18 +4,35 @@ import { ProFormUploadButton } from '@ant-design/pro-components';
 import { FormattedMessage } from '@umijs/max';
 
 interface FormUploadButtonProps {
+  icon?: React.ReactNode;
+  title?: string;
   name?: string;
   label?: string | React.ReactNode;
+  max?: number;
+  action?: string;
+  transform?: (values: any) => Record<string, any>;
+  rules?: any[];
+  fieldProps?: any;
 }
 
 export default function FormUploadButton(props: FormUploadButtonProps) {
+  const defaultTransform = (values: any) => {
+    let avatar = values?.[0]?.response?.data?.fileUrl || '';
+    if (!avatar && values && values.length >= 0) {
+      avatar = values?.[0]?.url || '';
+    }
+    return {
+      avatar: avatar,
+    };
+  };
+
   return (
     <ProFormUploadButton
-      icon={<PlusOutlined />}
-      title={null}
+      icon={props.icon || <PlusOutlined />}
+      title={props.title || null}
       name={props.name || 'avatar'}
       label={props.label || <FormattedMessage id="pages.SysUser.search.avatar" />}
-      max={1}
+      max={props.max || 1}
       fieldProps={{
         name: 'file',
         listType: 'picture-card',
@@ -24,18 +41,11 @@ export default function FormUploadButton(props: FormUploadButtonProps) {
         headers: {
           Authorization: `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
         },
+        ...props.fieldProps,
       }}
-      action="/api/common/file/upload"
-      transform={(values) => {
-        let avatar = values?.[0]?.response?.data?.fileUrl || '';
-        if (!avatar && values && values.length >= 0) {
-          avatar = values?.[0]?.url || '';
-        }
-        return {
-          avatar: avatar,
-        };
-      }}
-      rules={[{ required: false }]}
+      action={props.action || '/api/common/file/upload'}
+      transform={props.transform || defaultTransform}
+      rules={props.rules || []}
     />
   );
 }

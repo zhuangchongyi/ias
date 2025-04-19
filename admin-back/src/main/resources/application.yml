@@ -21,7 +21,14 @@ spring:
     name: IAS-Admin
   profiles:
     active: @spring.profiles.active@
-
+  # 文件上传
+  servlet:
+    multipart:
+      enabled: true
+      # 单个文件大小
+      max-file-size: 100MB
+      # 设置总上传的文件大小
+      max-request-size: 1GB
 
 #mybatis plus 设置
 mybatis-plus:

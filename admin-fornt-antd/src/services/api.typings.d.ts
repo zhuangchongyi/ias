@@ -78,6 +78,7 @@ declare namespace API {
     id?: number;
     userId?: number;
     fileUrl?: string;
+    faceId?: string;
     userFaces?: Array;
   };
   /**

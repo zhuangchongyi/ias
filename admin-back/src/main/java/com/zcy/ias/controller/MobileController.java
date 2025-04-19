@@ -32,7 +32,7 @@ public class MobileController {
      */
     @PostMapping("/checkFaceExists")
     public R<Object> checkFaceExists(@RequestParam("userId") Long userId,
-                                     MultipartFile file) {
+                                     @RequestParam("file") MultipartFile file) {
         return R.ok(this.sysUserFaceService.checkFaceExists(userId, file));
     }
 

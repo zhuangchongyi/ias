@@ -34,6 +34,11 @@ public class SysUserFace {
     @NotEmpty(message = "文件地址url不能为空")
     private String fileUrl;
     /**
+     * 人脸数据ID
+     */
+    @NotEmpty(message = "人脸数据ID不能为空")
+    private String faceId;
+    /**
      * 创建人ID
      */
     @TableField(fill = FieldFill.INSERT)

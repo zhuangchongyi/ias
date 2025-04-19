@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zcy.common.core.R;
 import com.zcy.common.utils.SecurityUtils;
 import com.zcy.ias.entity.SysUser;
+import com.zcy.ias.entity.SysUserFace;
 import com.zcy.ias.service.SysUserFaceService;
 import com.zcy.ias.service.SysUserService;
 import com.zcy.ias.vo.SysFileVO;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -101,7 +101,7 @@ public class SysUserController {
      */
     @PostMapping("/addUserFace")
     public R<Boolean> addUserFace(@RequestParam("userId") Long userId,
-                                  @RequestBody @Valid @NotEmpty(message = "用户人脸列表不能为空") List<String> list) {
+                                  @RequestBody @Valid List<SysUserFace> list) {
         return R.ok(this.sysUserFaceService.addUserFace(userId, list));
     }
 
@@ -109,7 +109,7 @@ public class SysUserController {
      * 获取用户人脸
      */
     @GetMapping("/getUserFace")
-    public R<List<String>> getUserFace(@RequestParam("userId") Long userId) {
+    public R<List<SysUserFace>> getUserFace(@RequestParam("userId") Long userId) {
         return R.ok(this.sysUserFaceService.getUserFace(userId));
     }
 
@@ -120,7 +120,7 @@ public class SysUserController {
      */
     @PostMapping("/uploadUserFace")
     public R<SysFileVO> uploadUserFace(@RequestParam("userId") Long userId,
-                                       MultipartFile file) {
+                                       @RequestParam("file") MultipartFile file) {
         return R.ok(this.sysUserFaceService.uploadUserFace(userId, file));
     }
 

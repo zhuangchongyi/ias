@@ -68,7 +68,7 @@ export async function addUserFace(id: number, data: Array<string>) {
 
 /** 获取用户人脸  */
 export async function getUserFace(id: number, options?: { [key: string]: any }) {
-  return request<API.R<Array<string>>>('/sysUser/getUserFace?userId=' + id, {
+  return request<API.R<Array<API.SysUserFace>>>('/sysUser/getUserFace?userId=' + id, {
     method: 'get',
     data: {
       ...(options || {}),

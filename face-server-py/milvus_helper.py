@@ -13,14 +13,12 @@ def init_milvus(collection_name: str) -> Collection:
         collection = Collection(name=collection_name, schema=schema)
         # 为 embedding 字段创建索引
         collection.create_index(
+            index_name="idx_embedding",
             field_name="embedding",
             index_params={"metric_type": "COSINE", "index_type": "IVF_FLAT", "params": {"nlist": 128}}
         )
         # 为 user_id 字段创建索引
-        collection.create_index(
-            field_name="user_id",
-            index_params={"index_type": "HASH", "params": {}}
-        )
+        collection.create_index(index_name="idx_user_id", field_name="user_id")
     else:
         collection = Collection(collection_name)
 

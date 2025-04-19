@@ -1,11 +1,11 @@
 package com.zcy.common.utils;
 
+import com.zcy.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 public class FileUtils {
@@ -17,7 +17,7 @@ public class FileUtils {
      * @param bytes 输入流字节
      * @return 哈希字符串（十六进制）
      */
-    public static String calculateFileHash(byte[] bytes) throws IOException, NoSuchAlgorithmException {
+    public static String calculateFileHash(byte[] bytes) {
         try (ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes)) {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -31,6 +31,9 @@ public class FileUtils {
                 sb.append(String.format("%02x", b));
             }
             return sb.toString();
+        } catch (Exception e) {
+            log.error("计算文件哈希出错", e);
+            throw new ServiceException("计算文件哈希出错");
         }
     }
 
@@ -58,21 +61,21 @@ public class FileUtils {
      * @param fileType 文件类型后缀
      */
     public static String getContentType(String fileType) {
-        String contentType = "application/octet-stream";
+        String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         if (StringUtils.isNotEmpty(fileType)) {
             switch (fileType) {
                 case "jpg":
                 case "jpeg":
-                    contentType = "image/jpeg";
+                    contentType = MediaType.IMAGE_JPEG_VALUE;
                     break;
                 case "png":
-                    contentType = "image/png";
+                    contentType = MediaType.IMAGE_PNG_VALUE;
                     break;
                 case "gif":
-                    contentType = "image/gif";
+                    contentType = MediaType.IMAGE_GIF_VALUE;
                     break;
                 case "pdf":
-                    contentType = "application/pdf";
+                    contentType = MediaType.APPLICATION_PDF_VALUE;
                     break;
                 default:
                     break;

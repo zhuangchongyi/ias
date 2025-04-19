@@ -1,7 +1,9 @@
 import uuid
+from typing import Union
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi import Query
+from pydantic import BaseModel
 
 from face_engine import FaceEngine
 from milvus_helper import init_milvus
@@ -9,6 +11,11 @@ from milvus_helper import init_milvus
 app = FastAPI()
 face_engine = FaceEngine()
 face_collection = init_milvus("face_db")
+
+
+class FaceData(BaseModel):
+    user_id: Union[str, int]
+    id_list: list[str]
 
 
 def success(msg="操作成功", data=None):
@@ -51,5 +58,18 @@ def compare_face(file: UploadFile = File(...), user_id: str = Query(...)):
         data_results = results[0]
         is_match = any(hit.distance > 0.999999 for hit in data_results)
         return success(data=is_match)
+    except Exception as e:
+        return error(msg=str(e), data=False)
+
+
+@app.post("/delete_face")
+def delete_face(body: FaceData):
+    try:
+        # 构建表达式
+        id_list_str = ', '.join([f'\"{u}\"' for u in body.id_list])
+        expr = f"user_id == '{body.user_id}' && id in [{id_list_str}]"
+        # 删除数据
+        face_collection.delete(expr)
+        return success(data=True)
     except Exception as e:
         return error(msg=str(e), data=False)

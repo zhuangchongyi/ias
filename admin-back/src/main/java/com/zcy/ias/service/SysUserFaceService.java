@@ -18,12 +18,12 @@ public interface SysUserFaceService extends IService<SysUserFace> {
     /**
      * 上传用户人脸
      */
-    Boolean addUserFace(Long userId, List<String> list);
+    Boolean addUserFace(Long userId, List<SysUserFace> list);
 
     /**
      * 获取用户人脸
      */
-    List<String> getUserFace(Long userId);
+    List<SysUserFace> getUserFace(Long userId);
 
     /**
      * 上传用户人脸
