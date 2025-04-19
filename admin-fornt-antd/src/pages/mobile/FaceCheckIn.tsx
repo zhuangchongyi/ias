@@ -1,9 +1,8 @@
-import { Button, Toast, Card } from 'antd-mobile';
-import React, { useRef, useState } from 'react';
+import { Card, NavBar, Toast } from 'antd-mobile';
+import { useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
 const FaceCheckIn = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [checkInInfo, setCheckInInfo] = useState<null | {
     name: string;
     employeeId: string;
@@ -13,16 +12,12 @@ const FaceCheckIn = () => {
 
   const webcamRef = useRef<Webcam>(null);
 
-  const videoConstraints = {
-    facingMode: 'environment',
-  };
-
   const getCurrentTime = () => {
     const now = new Date();
     return now.toLocaleString();
   };
 
-  const capture = async () => {
+  const captureAndCheckIn = async () => {
     if (!webcamRef.current) {
       Toast.show('摄像头未准备好，请重试');
       return;
@@ -32,8 +27,6 @@ const FaceCheckIn = () => {
       Toast.show('未能获取到图像，请重试');
       return;
     }
-
-    setIsLoading(true);
     try {
       // 模拟返回的用户信息
       const response = {
@@ -57,72 +50,90 @@ const FaceCheckIn = () => {
       }
     } catch (error) {
       Toast.show('打卡失败，请稍后再试');
-    } finally {
-      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    // 自动触发人脸识别打卡
+    const intervalId = setInterval(() => {
+      captureAndCheckIn();
+    }, 5000); // 每隔5秒自动拍照检测
+
+    return () => clearInterval(intervalId); // 清除定时器
+  }, []);
+
   return (
-    <div
-      style={{
-        padding: '24px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#f2f4f7',
-      }}
-    >
-      <h2 style={{ marginBottom: 24, color: '#333' }}>门禁扫脸打卡</h2>
+    <>
+      <NavBar backIcon={false} style={{ background: '#1677ff', color: '#fff' }}>
+        打卡
+      </NavBar>
 
       <div
         style={{
-          width: '100%',
-          maxWidth: 360,
-          borderRadius: 12,
+          position: 'relative',
+          width: '100vw',
+          height: '100vh',
           overflow: 'hidden',
-          border: '1px solid #ddd',
-          background: '#000',
         }}
       >
+        {/* 全屏摄像头 */}
         <Webcam
           audio={false}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width="100%"
-          videoConstraints={videoConstraints}
-        />
-      </div>
-
-      <Button
-        style={{ marginTop: 24, width: 200 }}
-        onClick={capture}
-        color="primary"
-        loading={isLoading}
-      >
-        {isLoading ? '识别中...' : '确认打卡'}
-      </Button>
-
-      {checkInInfo && (
-        <Card
-          style={{
-            marginTop: 32,
-            width: '100%',
-            maxWidth: 360,
-            textAlign: 'left',
-            backgroundColor: '#ffffff',
-            borderRadius: 12,
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+          videoConstraints={{
+            facingMode: 'environment',
           }}
-          title="✅ 打卡成功"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0, // 摄像头在背景层
+          }}
+        />
+
+        {/* 页面内容 */}
+        <div
+          style={{
+            position: 'absolute',
+            zIndex: 1, // 内容在摄像头上方
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backdropFilter: 'blur(4px)', // 模糊背景
+            textAlign: 'center',
+          }}
         >
-          <div style={{ fontSize: 16, marginBottom: 8 }}>👤 姓名：{checkInInfo.name}</div>
-          <div style={{ fontSize: 16, marginBottom: 8 }}>🆔 工号：{checkInInfo.employeeId}</div>
-          <div style={{ fontSize: 16, marginBottom: 8 }}>🏢 部门：{checkInInfo.department}</div>
-          <div style={{ fontSize: 16 }}>🕒 时间：{checkInInfo.checkInTime}</div>
-        </Card>
-      )}
-    </div>
+          {checkInInfo && (
+            <Card
+              style={{
+                marginTop: 32,
+                width: '100%',
+                maxWidth: 300,
+                textAlign: 'left',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                borderRadius: 12,
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              }}
+              title="✅ 打卡成功"
+            >
+              <div style={{ fontSize: 16, marginBottom: 8 }}>👤 姓名：{checkInInfo.name}</div>
+              <div style={{ fontSize: 16, marginBottom: 8 }}>🆔 工号：{checkInInfo.employeeId}</div>
+              <div style={{ fontSize: 16, marginBottom: 8 }}>🏢 部门：{checkInInfo.department}</div>
+              <div style={{ fontSize: 16 }}>🕒 时间：{checkInInfo.checkInTime}</div>
+            </Card>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
