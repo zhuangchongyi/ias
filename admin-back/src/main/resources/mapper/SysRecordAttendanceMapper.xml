@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcy.ias.mapper.SysUserMapper">
+<mapper namespace="com.zcy.ias.mapper.SysRecordAttendanceMapper">
     <sql id="baseSql">
         select id,
-               username,
-               password,
-               nickname,
-               avatar,
-               email,
-               phone,
-               gender,
-               status,
+               user_id,
+               punch_source,
+               punch_type,
+               punch_mode,
+               punch_time,
+               face_id,
+               location,
                create_id,
                create_by,
                create_time,
@@ -18,8 +17,7 @@
                update_by,
                update_time,
                del_flag
-        from sys_user
+        from sys_record_attendance
     </sql>
-
 </mapper>
 

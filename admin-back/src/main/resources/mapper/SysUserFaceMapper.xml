@@ -5,6 +5,7 @@
         select id,
                user_id,
                file_url,
+               face_id,
                create_id,
                create_by,
                create_time,

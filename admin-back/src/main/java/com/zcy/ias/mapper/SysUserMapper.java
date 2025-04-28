@@ -11,10 +11,5 @@ import com.zcy.ias.entity.SysUser;
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    /**
-     * 根据用户名查询用户信息
-     */
-    SysUser selectUserByUserName(String username);
-
 }
 

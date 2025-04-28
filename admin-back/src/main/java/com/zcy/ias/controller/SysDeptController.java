@@ -46,7 +46,7 @@ public class SysDeptController {
     @GetMapping("/enableList")
     public R<List<SysDept>> enableList(SysDept sysDept) {
         LambdaQueryWrapper<SysDept> queryWrapper = new LambdaQueryWrapper<>(sysDept);
-        queryWrapper.eq(SysDept::getStatus, IEnums.YES);
+        queryWrapper.eq(SysDept::getStatus, IEnums.YES.getCode());
         queryWrapper.orderByAsc(SysDept::getOrderNum, SysDept::getId);
         return R.ok(this.sysDeptService.list(queryWrapper));
     }

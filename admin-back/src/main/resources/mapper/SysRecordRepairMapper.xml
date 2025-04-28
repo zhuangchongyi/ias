@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcy.ias.mapper.SysUserMapper">
+<mapper namespace="com.zcy.ias.mapper.SysRecordRepairMapper">
     <sql id="baseSql">
         select id,
-               username,
-               password,
-               nickname,
-               avatar,
-               email,
-               phone,
-               gender,
+               user_id,
+               attendance_id,
+               repair_type,
+               repair_time,
+               reason,
                status,
                create_id,
                create_by,
@@ -18,8 +16,7 @@
                update_by,
                update_time,
                del_flag
-        from sys_user
+        from sys_record_repair
     </sql>
-
 </mapper>
 

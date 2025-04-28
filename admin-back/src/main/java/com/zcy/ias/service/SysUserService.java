@@ -18,5 +18,10 @@ public interface SysUserService extends IService<SysUser> {
      */
     void updateLoginInfo(Long userId);
 
+    /**
+     * 根据用户名查询用户信息
+     */
+    SysUser getUserByUserName(String username);
+
 }
 

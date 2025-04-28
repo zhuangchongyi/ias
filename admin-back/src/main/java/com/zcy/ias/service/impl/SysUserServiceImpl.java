@@ -1,5 +1,6 @@
 package com.zcy.ias.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zcy.common.utils.ip.IpUtils;
 import com.zcy.ias.entity.SysUser;
@@ -27,6 +28,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setLoginIp(IpUtils.getIpAddr());
         sysUser.setLoginDate(LocalDateTime.now());
         this.updateById(sysUser);
+    }
+
+    @Override
+    public SysUser getUserByUserName(String username) {
+        return this.getOne(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUsername, username));
     }
 }
 

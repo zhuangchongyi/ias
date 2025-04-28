@@ -1,7 +1,7 @@
 drop table if exists sys_user;
 CREATE TABLE sys_user
 (
-    id        bigint PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    id          bigint PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
     username    VARCHAR(50)  NOT NULL COMMENT '用户名',
     password    VARCHAR(255) NOT NULL COMMENT '密码',
     nickname    VARCHAR(50) COMMENT '昵称',
@@ -12,10 +12,10 @@ CREATE TABLE sys_user
     status      tinyint(1) DEFAULT 1 COMMENT '帐号状态（0禁用 1启用）',
     login_ip    varchar(128) null comment '最后登录IP',
     login_date  datetime     null comment '最后登录时间',
-    create_id bigint COMMENT '创建人ID',
+    create_id   bigint COMMENT '创建人ID',
     create_by   VARCHAR(50) COMMENT '创建人名称',
     create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_id bigint COMMENT '更新人ID',
+    update_id   bigint COMMENT '更新人ID',
     update_by   VARCHAR(50) COMMENT '更新人名称',
     update_time DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
@@ -32,7 +32,7 @@ create table sys_role
     role_key    varchar(100) not null comment '角色权限字符串',
     role_name   varchar(30)  not null comment '角色名称',
     order_num   int        default 1 comment '显示顺序',
-    status tinyint(1) default 1 comment '角色状态（0禁用 1启用）',
+    status      tinyint(1) default 1 comment '角色状态（0禁用 1启用）',
     create_id   bigint COMMENT '创建人ID',
     create_by   VARCHAR(50) COMMENT '创建人名称',
     create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -53,7 +53,7 @@ create table sys_dept
     ancestors   varchar(100) comment '祖级列表',
     dept_name   varchar(30) comment '部门名称',
     order_num   int comment '显示顺序',
-    status tinyint(1) default 1 comment '部门状态（0禁用 1启用）',
+    status      tinyint(1) default 1 comment '部门状态（0禁用 1启用）',
     create_id   bigint COMMENT '创建人ID',
     create_by   VARCHAR(50) COMMENT '创建人名称',
     create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -81,7 +81,7 @@ create table sys_permission
     update_by       VARCHAR(50) COMMENT '更新人名称',
     update_time     DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     del_flag        tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
-) AUTO_INCREMENT = 1000 comment = '权限表';
+) AUTO_INCREMENT = 1000 comment ='权限表';
 
 drop table if exists sys_file;
 create table sys_file
@@ -99,7 +99,7 @@ create table sys_file
     update_by   VARCHAR(50) COMMENT '更新人名称',
     update_time DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
-) comment ='文件表';
+) comment = '文件表';
 
 drop table if exists sys_user_face;
 create table sys_user_face
@@ -107,14 +107,15 @@ create table sys_user_face
     id          bigint auto_increment primary key comment 'ID',
     user_id     bigint comment '用户ID',
     file_url    varchar(255) comment '文件地址url',
-    face_id varchar(36) comment '人脸数据ID',
+    face_id     varchar(36) comment '人脸数据ID',
     create_id   bigint COMMENT '创建人ID',
     create_by   VARCHAR(50) COMMENT '创建人名称',
     create_time DATETIME   DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_id   bigint COMMENT '更新人ID',
     update_by   VARCHAR(50) COMMENT '更新人名称',
     update_time DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
+    del_flag    tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）',
+    FOREIGN KEY (user_id) REFERENCES sys_user (id)
 ) COMMENT = '用户人脸记录表';
 
 drop table if exists sys_record_attendance;
@@ -134,7 +135,8 @@ CREATE TABLE sys_record_attendance
     update_id    bigint COMMENT '更新人ID',
     update_by    VARCHAR(50) COMMENT '更新人名称',
     update_time  DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    del_flag     tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
+    del_flag     tinyint(1) DEFAULT 0 COMMENT '是否删除（0否 1是）',
+    FOREIGN KEY (user_id) REFERENCES sys_user (id)
 ) COMMENT ='打卡记录表';
 
 DROP TABLE IF EXISTS sys_record_repair;
@@ -153,26 +155,35 @@ CREATE TABLE sys_record_repair
     update_id     BIGINT COMMENT '更新人ID',
     update_by     VARCHAR(50) COMMENT '更新人名称',
     update_time   DATETIME   DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    del_flag      TINYINT(1) DEFAULT 0 COMMENT '是否删除（0否 1是）'
+    del_flag      TINYINT(1) DEFAULT 0 COMMENT '是否删除（0否 1是）',
+    FOREIGN KEY (attendance_id) REFERENCES sys_record_attendance (id),
+    FOREIGN KEY (user_id) REFERENCES sys_user (id)
 ) COMMENT = '补卡记录表';
+
 
 drop table if exists sys_user_role;
 create table sys_user_role
 (
-    user_id bigint comment '用户ID',
-    role_id bigint comment '角色ID'
-) AUTO_INCREMENT = 1000 comment = '用户角色表';
+    user_id bigint NOT NULL comment '用户ID',
+    role_id bigint NOT NULL comment '角色ID',
+    FOREIGN KEY (user_id) REFERENCES sys_user (id),
+    FOREIGN KEY (role_id) REFERENCES sys_role (id)
+) AUTO_INCREMENT = 1000 comment ='用户角色表';
 
 drop table if exists sys_user_dept;
 create table sys_user_dept
 (
-    user_id bigint comment '用户ID',
-    dept_id bigint comment '部门ID'
+    user_id bigint NOT NULL comment '用户ID',
+    dept_id bigint NOT NULL comment '部门ID',
+    FOREIGN KEY (user_id) REFERENCES sys_user (id),
+    FOREIGN KEY (dept_id) REFERENCES sys_dept (id)
 ) AUTO_INCREMENT = 1000 comment = '用户部门表';
 
 drop table if exists sys_role_permission;
 create table sys_role_permission
 (
-    role_id       bigint comment '角色ID',
-    permission_id bigint comment '权限ID'
-) AUTO_INCREMENT = 1000 comment = '角色权限表';
+    role_id       bigint NOT NULL comment '角色ID',
+    permission_id bigint NOT NULL comment '权限ID',
+    FOREIGN KEY (role_id) REFERENCES sys_role (id),
+    FOREIGN KEY (permission_id) REFERENCES sys_permission (id)
+) AUTO_INCREMENT = 1000 COMMENT = '角色权限表';

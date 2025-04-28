@@ -9,7 +9,7 @@ import com.zcy.common.utils.StringUtils;
 import com.zcy.config.context.AuthenticationContextHolder;
 import com.zcy.config.redis.RedisCache;
 import com.zcy.ias.entity.SysUser;
-import com.zcy.ias.mapper.SysUserMapper;
+import com.zcy.ias.service.SysUserService;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +38,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private RedisCache redisCache;
     @Resource
-    private SysUserMapper sysUserMapper;
+    private SysUserService sysUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = sysUserMapper.selectUserByUserName(username);
+        SysUser user = sysUserService.getUserByUserName(username);
         if (StringUtils.isNull(user)) {
             throw new AuthException("登录用户：{} 不存在", username);
         } else if (IEnums.YES.getCode() == user.getDelFlag()) {
