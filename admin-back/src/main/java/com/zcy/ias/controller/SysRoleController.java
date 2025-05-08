@@ -45,7 +45,7 @@ public class SysRoleController {
      * @return 单条数据
      */
     @GetMapping("/get/{id}")
-    public R<SysRole> selectOne(@PathVariable Long id) {
+    public R<SysRole> get(@PathVariable Long id) {
         return R.ok(this.sysRoleService.getById(id));
     }
 

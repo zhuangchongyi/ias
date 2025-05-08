@@ -27,7 +27,7 @@ public class SysRecordAttendanceController {
     /**
      * 分页查询所有打卡记录表数据
      *
-     * @param page 分页对象
+     * @param page                分页对象
      * @param sysRecordAttendance 查询实体
      * @return 所有数据
      */
@@ -43,7 +43,7 @@ public class SysRecordAttendanceController {
      * @return 单条数据
      */
     @GetMapping("/get/{id}")
-    public R<SysRecordAttendance> selectOne(@PathVariable Long id) {
+    public R<SysRecordAttendance> get(@PathVariable Long id) {
         return R.ok(this.sysRecordAttendanceService.getById(id));
     }
 

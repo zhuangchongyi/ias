@@ -56,7 +56,7 @@ public class SysUserController {
      * @return 单条数据
      */
     @GetMapping("/get/{id}")
-    public R<SysUser> selectOne(@PathVariable Integer id) {
+    public R<SysUser> get(@PathVariable Integer id) {
         return R.ok(this.sysUserService.getById(id));
     }
 

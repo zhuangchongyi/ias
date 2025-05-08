@@ -58,7 +58,7 @@ public class SysDeptController {
      * @return 单条数据
      */
     @GetMapping("/get/{id}")
-    public R<SysDept> selectOne(@PathVariable Long id) {
+    public R<SysDept> get(@PathVariable Long id) {
         return R.ok(this.sysDeptService.getById(id));
     }
 

@@ -16,42 +16,72 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("sys_record_attendance")
 public class SysRecordAttendance {
-    /**ID*/
+    /**
+     * ID
+     */
     @TableId
     private Long id;
-    /**用户ID*/
+    /**
+     * 用户ID
+     */
     private Long userId;
-    /**打卡来源（1自动 2补卡）*/
+    /**
+     * 打卡来源（1自动 2补卡）
+     */
     private Integer punchSource;
-    /**打卡类型（1上班打卡 2迟到打卡 3下班打卡）*/
+    /**
+     * 打卡类型（1上班打卡 2迟到打卡 3下班打卡）
+     */
     private Integer punchType;
-    /**打卡方式（1人脸打卡 2定位打卡）*/
+    /**
+     * 打卡方式（1人脸打卡 2定位打卡）
+     */
     private Integer punchMode;
-    /**打卡时间*/
+    /**
+     * 打卡时间
+     */
     private LocalDateTime punchTime;
-    /**人脸打卡时的人脸数据ID*/
+    /**
+     * 人脸打卡时的人脸数据ID
+     */
     private String faceId;
-    /**打卡位置（用于定位打卡）*/
+    /**
+     * 打卡位置（用于定位打卡）
+     */
     private String location;
-    /**创建人ID*/
+    /**
+     * 创建人ID
+     */
     @TableField(fill = FieldFill.INSERT)
     private Long createId;
-    /**创建人名称*/
+    /**
+     * 创建人名称
+     */
     @TableField(fill = FieldFill.INSERT)
     private String createBy;
-    /**创建时间*/
+    /**
+     * 创建时间
+     */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    /**更新人ID*/
+    /**
+     * 更新人ID
+     */
     @TableField(fill = FieldFill.UPDATE)
     private Long updateId;
-    /**更新人名称*/
+    /**
+     * 更新人名称
+     */
     @TableField(fill = FieldFill.UPDATE)
     private String updateBy;
-    /**更新时间*/
+    /**
+     * 更新时间
+     */
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
-    /**是否删除（0否 1是）*/
+    /**
+     * 是否删除（0否 1是）
+     */
     @TableLogic(value = "0", delval = "1")
     private Integer delFlag;
 

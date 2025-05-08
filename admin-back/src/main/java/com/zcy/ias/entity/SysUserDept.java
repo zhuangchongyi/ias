@@ -14,9 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("sys_user_dept")
 public class SysUserDept {
-    /**用户ID*/
+    /**
+     * 用户ID
+     */
     private Long userId;
-    /**部门ID*/
+    /**
+     * 部门ID
+     */
     private Long deptId;
 
 }

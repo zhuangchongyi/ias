@@ -27,7 +27,7 @@ public class SysRecordRepairController {
     /**
      * 分页查询所有补卡记录表数据
      *
-     * @param page 分页对象
+     * @param page            分页对象
      * @param sysRecordRepair 查询实体
      * @return 所有数据
      */
@@ -43,7 +43,7 @@ public class SysRecordRepairController {
      * @return 单条数据
      */
     @GetMapping("/get/{id}")
-    public R<SysRecordRepair> selectOne(@PathVariable Long id) {
+    public R<SysRecordRepair> get(@PathVariable Long id) {
         return R.ok(this.sysRecordRepairService.getById(id));
     }
 
