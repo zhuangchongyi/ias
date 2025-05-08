@@ -167,7 +167,8 @@ create table sys_user_role
     user_id bigint NOT NULL comment '用户ID',
     role_id bigint NOT NULL comment '角色ID',
     FOREIGN KEY (user_id) REFERENCES sys_user (id),
-    FOREIGN KEY (role_id) REFERENCES sys_role (id)
+    FOREIGN KEY (role_id) REFERENCES sys_role (id),
+    unique (user_id, role_id)
 ) AUTO_INCREMENT = 1000 comment ='用户角色表';
 
 drop table if exists sys_user_dept;
@@ -176,7 +177,8 @@ create table sys_user_dept
     user_id bigint NOT NULL comment '用户ID',
     dept_id bigint NOT NULL comment '部门ID',
     FOREIGN KEY (user_id) REFERENCES sys_user (id),
-    FOREIGN KEY (dept_id) REFERENCES sys_dept (id)
+    FOREIGN KEY (dept_id) REFERENCES sys_dept (id),
+    unique (user_id, dept_id)
 ) AUTO_INCREMENT = 1000 comment = '用户部门表';
 
 drop table if exists sys_role_permission;
@@ -185,5 +187,6 @@ create table sys_role_permission
     role_id       bigint NOT NULL comment '角色ID',
     permission_id bigint NOT NULL comment '权限ID',
     FOREIGN KEY (role_id) REFERENCES sys_role (id),
-    FOREIGN KEY (permission_id) REFERENCES sys_permission (id)
+    FOREIGN KEY (permission_id) REFERENCES sys_permission (id),
+    unique (permission_id, role_id)
 ) AUTO_INCREMENT = 1000 COMMENT = '角色权限表';
