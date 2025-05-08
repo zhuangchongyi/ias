@@ -33,4 +33,6 @@ export default {
   'menu.UserList': '用户列表',
   'menu.RoleList': '角色列表',
   'menu.DeptList': '部门列表',
+  'menu.RecordAttendance': '打卡列表',
+  'menu.RecordRepair': '补卡列表',
 };

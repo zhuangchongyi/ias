@@ -1,7 +1,5 @@
-// @ts-ignore
 /* eslint-disable */
 declare namespace API {
-  ///////////////////////////////通用参数类型///////////////////////////////
   /**
    * 请求返回格式
    */
@@ -32,7 +30,6 @@ declare namespace API {
     updateTime?: string;
     delFlag?: string;
   };
-  ///////////////////////////////通用参数类型///////////////////////////////
 
   /**
    * 登录参数
@@ -102,6 +99,33 @@ declare namespace API {
       ancestors?: string;
       deptName?: string;
       orderNum?: number;
+      status?: number;
+    };
+  /**
+   * 打卡记录
+   */
+  type SysRecordAttendance = BaseEntity &
+    Page & {
+      id?: number;
+      userId?: number;
+      punchSource?: number;
+      punchType?: number;
+      punchMode?: number;
+      punchTime?: string;
+      faceId?: string;
+      location?: string;
+    };
+  /**
+   * 补卡记录
+   */
+  type SysRecordRepair = BaseEntity &
+    Page & {
+      id?: number;
+      userId?: number;
+      attendanceId?: number;
+      repairType?: number;
+      repairTime?: string;
+      reason?: string;
       status?: number;
     };
 }

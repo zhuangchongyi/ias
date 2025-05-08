@@ -87,4 +87,16 @@ export default [
     path: '/dept/list',
     component: '@/pages/dept',
   },
+  {
+    name: 'RecordAttendance',
+    icon: 'UserSwitch',
+    path: '/recordAttendance/list',
+    component: '@/pages/record-attendance',
+  },
+  {
+    name: 'RecordRepair',
+    icon: 'UserSwitch',
+    path: '/recordRepair/list',
+    component: '@/pages/record-repair',
+  },
 ];
