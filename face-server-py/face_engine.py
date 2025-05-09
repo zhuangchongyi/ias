@@ -8,7 +8,7 @@ from insightface.app import FaceAnalysis
 
 class FaceEngine:
     def __init__(self):
-        self.model = FaceAnalysis(name="buffalo_l", providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
+        self.model = FaceAnalysis(name="buffalo_l", providers=["CPUExecutionProvider"])
         self.model.prepare(ctx_id=0)
 
     def extract_embedding(self, file: UploadFile) -> np.ndarray:
