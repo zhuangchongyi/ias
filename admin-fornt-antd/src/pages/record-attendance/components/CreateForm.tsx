@@ -1,11 +1,10 @@
-import { addSysRole } from '@/services/role';
-import { joinIntlMessages } from '@/utils';
-import { StatusEnum } from '@/utils/enums';
+import { addSysRecordAttendance } from '@/services/recordAttendance';
+import { PpunchSourceEnum, PunchModeEnum, PunchTypeEnum } from '@/utils/enums';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ModalForm,
-  ProFormDigit,
+  ProFormDateTimePicker,
   ProFormInstance,
   ProFormRadio,
   ProFormText,
@@ -23,7 +22,7 @@ const CreateForm: FC<CreateFormProps> = ({ reload }) => {
   const [messageApi, messageContextHolder] = message.useMessage();
   const formRef = useRef<ProFormInstance>();
 
-  const { run: runAdd, loading } = useRequest(addSysRole, {
+  const { run: runAdd, loading } = useRequest(addSysRecordAttendance, {
     manual: true,
     onSuccess: () => {
       messageApi.success(intl.formatMessage({ id: 'message.operation.success' }));
@@ -48,48 +47,39 @@ const CreateForm: FC<CreateFormProps> = ({ reload }) => {
         width={600}
         modalProps={{ okButtonProps: { loading } }}
         onFinish={async (value) => {
-          await runAdd(value as API.SysRole);
+          await runAdd(value as API.SysRecordAttendance);
           return true;
         }}
       >
         <ProFormText
-          name="roleKey"
-          label={<FormattedMessage id="pages.SysRole.search.roleKey" />}
-          rules={[
-            {
-              required: true,
-              message: joinIntlMessages([
-                'pages.common.required.input',
-                'pages.SysRole.search.roleKey',
-              ]),
-            },
-          ]}
-        />
-        <ProFormText
-          name="roleName"
-          label={<FormattedMessage id="pages.SysRole.search.roleName" />}
-          rules={[
-            {
-              required: true,
-              message: joinIntlMessages([
-                'pages.common.required.input',
-                'pages.SysRole.search.roleName',
-              ]),
-            },
-          ]}
-        />
-        <ProFormDigit
-          name="orderNum"
-          min={1}
-          max={100000}
-          label={<FormattedMessage id="pages.SysRole.search.orderNum" />}
-          initialValue={1}
+          name="userId"
+          label={<FormattedMessage id="pages.SysRecordAttendance.search.userId" />}
         />
         <ProFormRadio.Group
-          name="status"
-          label={<FormattedMessage id="pages.SysRole.search.status" />}
-          options={StatusEnum.options}
-          initialValue={1}
+          name="punchSource"
+          label={<FormattedMessage id="pages.SysRecordAttendance.search.punchSource" />}
+          options={PpunchSourceEnum.options}
+        />
+        <ProFormRadio.Group
+          name="punchType"
+          label={<FormattedMessage id="pages.SysRecordAttendance.search.punchType" />}
+          options={PunchTypeEnum.options}
+        />
+        <ProFormRadio.Group
+          name="punchMode"
+          label={<FormattedMessage id="pages.SysRecordAttendance.search.punchMode" />}
+          options={PunchModeEnum.options}
+        />
+        <ProFormDateTimePicker
+          name="punchTime"
+          label={<FormattedMessage id="pages.SysRecordAttendance.search.punchTime" />}
+          fieldProps={{
+            format: (value) => value.format('YYYY-MM-DD HH:mm:ss'),
+          }}
+        />
+        <ProFormText
+          name="location"
+          label={<FormattedMessage id="pages.SysRecordAttendance.search.location" />}
         />
       </ModalForm>
     </>

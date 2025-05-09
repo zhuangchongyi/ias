@@ -38,3 +38,25 @@ export const StatusEnum = buildEnum({
   0: { id: 'enums.status.disable', color: 'red' },
   1: { id: 'enums.status.enable', color: 'green' },
 });
+export const RecordRepairStatusEnum = buildEnum({
+  0: { id: 'enums.repairStatus.pending' },
+  1: { id: 'enums.repairStatus.pass' },
+  2: { id: 'enums.repairStatus.refuse' },
+});
+export const RepairTypeEnum = buildEnum({
+  1: { id: 'enums.repairType.working' },
+  2: { id: 'enums.repairType.closed' },
+});
+export const PpunchSourceEnum = buildEnum({
+  1: { id: 'enums.punchSource.auto' },
+  2: { id: 'enums.punchSource.repair' },
+});
+export const PunchTypeEnum = buildEnum({
+  1: { id: 'enums.punchType.working' },
+  2: { id: 'enums.punchType.late' },
+  3: { id: 'enums.punchType.closed' },
+});
+export const PunchModeEnum = buildEnum({
+  1: { id: 'enums.punchMode.face' },
+  2: { id: 'enums.punchMode.location' },
+});

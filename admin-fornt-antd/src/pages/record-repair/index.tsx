@@ -1,5 +1,5 @@
-import { pageSysRole, removeSysRole } from '@/services/role';
-import { StatusEnum } from '@/utils/enums';
+import { pageSysRecordRepair, removeSysRecordRepair } from '@/services/recordRepair';
+import { RecordRepairStatusEnum, RepairTypeEnum } from '@/utils/enums';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
   FooterToolbar,
@@ -16,8 +16,8 @@ import UpdateForm from './components/UpdateForm';
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<API.SysRole>();
-  const [selectedRowsState, setSelectedRows] = useState<API.SysRole[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.SysRecordRepair>();
+  const [selectedRowsState, setSelectedRows] = useState<API.SysRecordRepair[]>([]);
 
   /**
    * @en-US International configuration
@@ -27,7 +27,7 @@ const TableList: React.FC = () => {
   const [messageApi, messageContextHolder] = message.useMessage();
   const [modalApi, modalContextHolder] = Modal.useModal();
 
-  const { run: delSysRole, loading } = useRequest(removeSysRole, {
+  const { run: delSysRecordRepair, loading } = useRequest(removeSysRecordRepair, {
     manual: true,
     onSuccess: () => {
       setSelectedRows([]);
@@ -40,25 +40,25 @@ const TableList: React.FC = () => {
   });
 
   const handleRemove = useCallback(
-    async (selectedRows: API.SysRole[]) => {
+    async (selectedRows: API.SysRecordRepair[]) => {
       if (!selectedRows?.length) {
         messageApi.warning(intl.formatMessage({ id: 'message.operation.success' }));
         return;
       }
 
-      await delSysRole(selectedRows.map((row) => row.id).join());
+      await delSysRecordRepair(selectedRows.map((row) => row.id).join());
     },
-    [delSysRole],
+    [delSysRecordRepair],
   );
 
   const handleTableRequest = async (
-    params: API.SysRole,
+    params: API.SysRecordRepair,
     sort: Record<string, any>,
     filter: Record<string, any>,
   ) => {
     params.size = params.pageSize;
     params.pageSize = undefined;
-    const res: API.R<API.SysRole> = await pageSysRole(params);
+    const res: API.R<API.SysRecordRepair> = await pageSysRecordRepair(params);
     return {
       success: res.code === 200,
       data: res.data?.records || [],
@@ -66,9 +66,9 @@ const TableList: React.FC = () => {
     };
   };
 
-  const columns: ProColumns<API.SysRole>[] = [
+  const columns: ProColumns<API.SysRecordRepair>[] = [
     {
-      title: <FormattedMessage id="pages.SysRole.search.id" />,
+      title: <FormattedMessage id="pages.SysRecordRepair.search.id" />,
       dataIndex: 'id',
       render: (_dom, row: any) => {
         return (
@@ -84,21 +84,30 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.roleKey" />,
-      dataIndex: 'roleKey',
+      title: <FormattedMessage id="pages.SysRecordRepair.search.userId" />,
+      dataIndex: 'userId',
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.roleName" />,
-      dataIndex: 'roleName',
+      title: <FormattedMessage id="pages.SysRecordRepair.search.attendanceId" />,
+      dataIndex: 'attendanceId',
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.orderNum" />,
-      dataIndex: 'orderNum',
+      title: <FormattedMessage id="pages.SysRecordRepair.search.repairType" />,
+      dataIndex: 'repairType',
+      valueEnum: RepairTypeEnum.valueEnum,
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.status" />,
+      title: <FormattedMessage id="pages.SysRecordRepair.search.repairTime" />,
+      dataIndex: 'repairTime',
+    },
+    {
+      title: <FormattedMessage id="pages.SysRecordRepair.search.reason" />,
+      dataIndex: 'reason',
+    },
+    {
+      title: <FormattedMessage id="pages.SysRecordRepair.search.status" />,
       dataIndex: 'status',
-      valueEnum: StatusEnum.valueEnum,
+      valueEnum: RecordRepairStatusEnum.valueEnum,
     },
     {
       title: <FormattedMessage id="pages.common.search.createBy" />,
@@ -180,7 +189,7 @@ const TableList: React.FC = () => {
     <PageContainer>
       {messageContextHolder}
       {modalContextHolder}
-      <ProTable<API.SysRole, API.R<API.SysRole>>
+      <ProTable<API.SysRecordRepair, API.R<API.SysRecordRepair>>
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -229,7 +238,7 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.username && (
-          <ProDescriptions<API.SysRole>
+          <ProDescriptions<API.SysRecordRepair>
             column={2}
             title={currentRow?.username}
             request={async () => ({
@@ -238,7 +247,7 @@ const TableList: React.FC = () => {
             params={{
               id: currentRow?.username,
             }}
-            columns={columns as ProDescriptionsItemProps<API.SysRole>[]}
+            columns={columns as ProDescriptionsItemProps<API.SysRecordRepair>[]}
           />
         )}
       </Drawer>

@@ -1,5 +1,5 @@
-import { pageSysRole, removeSysRole } from '@/services/role';
-import { StatusEnum } from '@/utils/enums';
+import { pageSysRecordAttendance, removeSysRecordAttendance } from '@/services/recordAttendance';
+import { PpunchSourceEnum, PunchModeEnum, PunchTypeEnum } from '@/utils/enums';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
   FooterToolbar,
@@ -16,8 +16,8 @@ import UpdateForm from './components/UpdateForm';
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<API.SysRole>();
-  const [selectedRowsState, setSelectedRows] = useState<API.SysRole[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.SysRecordAttendance>();
+  const [selectedRowsState, setSelectedRows] = useState<API.SysRecordAttendance[]>([]);
 
   /**
    * @en-US International configuration
@@ -27,7 +27,7 @@ const TableList: React.FC = () => {
   const [messageApi, messageContextHolder] = message.useMessage();
   const [modalApi, modalContextHolder] = Modal.useModal();
 
-  const { run: delSysRole, loading } = useRequest(removeSysRole, {
+  const { run: delSysRecordAttendance, loading } = useRequest(removeSysRecordAttendance, {
     manual: true,
     onSuccess: () => {
       setSelectedRows([]);
@@ -40,25 +40,25 @@ const TableList: React.FC = () => {
   });
 
   const handleRemove = useCallback(
-    async (selectedRows: API.SysRole[]) => {
+    async (selectedRows: API.SysRecordAttendance[]) => {
       if (!selectedRows?.length) {
         messageApi.warning(intl.formatMessage({ id: 'message.operation.success' }));
         return;
       }
 
-      await delSysRole(selectedRows.map((row) => row.id).join());
+      await delSysRecordAttendance(selectedRows.map((row) => row.id).join());
     },
-    [delSysRole],
+    [delSysRecordAttendance],
   );
 
   const handleTableRequest = async (
-    params: API.SysRole,
+    params: API.SysRecordAttendance,
     sort: Record<string, any>,
     filter: Record<string, any>,
   ) => {
     params.size = params.pageSize;
     params.pageSize = undefined;
-    const res: API.R<API.SysRole> = await pageSysRole(params);
+    const res: API.R<API.SysRecordAttendance> = await pageSysRecordAttendance(params);
     return {
       success: res.code === 200,
       data: res.data?.records || [],
@@ -66,9 +66,9 @@ const TableList: React.FC = () => {
     };
   };
 
-  const columns: ProColumns<API.SysRole>[] = [
+  const columns: ProColumns<API.SysRecordAttendance>[] = [
     {
-      title: <FormattedMessage id="pages.SysRole.search.id" />,
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.id" />,
       dataIndex: 'id',
       render: (_dom, row: any) => {
         return (
@@ -84,21 +84,31 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.roleKey" />,
-      dataIndex: 'roleKey',
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.userId" />,
+      dataIndex: 'userId',
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.roleName" />,
-      dataIndex: 'roleName',
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.punchSource" />,
+      dataIndex: 'punchSource',
+      valueEnum: PpunchSourceEnum.valueEnum,
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.orderNum" />,
-      dataIndex: 'orderNum',
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.punchType" />,
+      dataIndex: 'punchType',
+      valueEnum: PunchTypeEnum.valueEnum,
     },
     {
-      title: <FormattedMessage id="pages.SysRole.search.status" />,
-      dataIndex: 'status',
-      valueEnum: StatusEnum.valueEnum,
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.punchMode" />,
+      dataIndex: 'punchMode',
+      valueEnum: PunchModeEnum.valueEnum,
+    },
+    {
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.punchTime" />,
+      dataIndex: 'punchTime',
+    },
+    {
+      title: <FormattedMessage id="pages.SysRecordAttendance.search.location" />,
+      dataIndex: 'location',
     },
     {
       title: <FormattedMessage id="pages.common.search.createBy" />,
@@ -180,7 +190,7 @@ const TableList: React.FC = () => {
     <PageContainer>
       {messageContextHolder}
       {modalContextHolder}
-      <ProTable<API.SysRole, API.R<API.SysRole>>
+      <ProTable<API.SysRecordAttendance, API.R<API.SysRecordAttendance>>
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -229,7 +239,7 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.username && (
-          <ProDescriptions<API.SysRole>
+          <ProDescriptions<API.SysRecordAttendance>
             column={2}
             title={currentRow?.username}
             request={async () => ({
@@ -238,7 +248,7 @@ const TableList: React.FC = () => {
             params={{
               id: currentRow?.username,
             }}
-            columns={columns as ProDescriptionsItemProps<API.SysRole>[]}
+            columns={columns as ProDescriptionsItemProps<API.SysRecordAttendance>[]}
           />
         )}
       </Drawer>

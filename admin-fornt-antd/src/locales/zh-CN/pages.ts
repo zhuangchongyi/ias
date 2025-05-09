@@ -73,4 +73,20 @@ export default {
   'pages.SysDept.search.deptName': '部门名称',
   'pages.SysDept.search.orderNum': '显示顺序',
   'pages.SysDept.search.status': '部门状态',
+
+  'pages.SysRecordAttendance.search.id': '编号',
+  'pages.SysRecordAttendance.search.userId': '用户ID',
+  'pages.SysRecordAttendance.search.punchSource': '打卡来源',
+  'pages.SysRecordAttendance.search.punchType': '打卡类型',
+  'pages.SysRecordAttendance.search.punchMode': '打卡方式',
+  'pages.SysRecordAttendance.search.punchTime': '打卡时间',
+  'pages.SysRecordAttendance.search.location': '打卡位置',
+
+  'pages.SysRecordRepair.search.id': '编号',
+  'pages.SysRecordRepair.search.userId': '用户ID',
+  'pages.SysRecordRepair.search.attendanceId': '打卡记录ID',
+  'pages.SysRecordRepair.search.repairType': '补卡类型',
+  'pages.SysRecordRepair.search.repairTime': '补卡时间',
+  'pages.SysRecordRepair.search.reason': '补卡原因',
+  'pages.SysRecordRepair.search.status': '审核状态',
 };
