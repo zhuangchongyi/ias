@@ -16,7 +16,7 @@ public class FaceData implements Serializable {
     private String id;
     @JsonProperty("user_id")
     private String userId;
-    @JsonProperty("distance")
-    private Double distance;
+    @JsonProperty("score")
+    private Double score;
 
 }
