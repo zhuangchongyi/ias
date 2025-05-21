@@ -18,3 +18,11 @@ declare module 'react-fittext';
 declare module 'bizcharts-plugin-slider';
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
+
+
+declare type AppInitialState = {
+  loading?: boolean;
+  settings?: Partial<LayoutSettings>;
+  currentUser?: API.CurrentUser;
+};
+

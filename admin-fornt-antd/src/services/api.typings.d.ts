@@ -50,6 +50,7 @@ declare namespace API {
    */
   type CurrentUser = SysUser & {
     permissionList?: string[];
+    roleList?: string[];
   };
   /**
    * 用户

@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import request from '@/utils/request';
+import { request } from '@umijs/max';
 
 /** 登录接口 */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {

@@ -1,9 +1,15 @@
 /**
  * @see https://umijs.org/docs/max/access#access
  * */
-export default function access(initialState: { currentUser?: API.CurrentUser } | undefined) {
+export default function access(initialState: AppInitialState) {
   const { currentUser } = initialState ?? {};
+  const permissionList = currentUser?.permissionList || [];
+  const isAdmin = currentUser?.username === 'admin';
   return {
-    canAdmin: currentUser && currentUser.access === 'admin',
+    normalRouteFilter: (route: any) => {
+      console.log(route);
+
+      return isAdmin || permissionList.includes(route.permission);
+    },
   };
 }

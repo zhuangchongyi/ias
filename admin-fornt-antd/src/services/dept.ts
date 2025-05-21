@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import request from '@/utils/request';
+import { request } from '@umijs/max';
 
 /** 获取部门列表 */
 export async function listSysDept(params?: API.SysDept, options?: { [key: string]: any }) {

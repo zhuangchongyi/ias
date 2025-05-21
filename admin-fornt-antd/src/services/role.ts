@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import request from '@/utils/request';
+import { request } from '@umijs/max';
 
 /** 获取角色列表 */
 export async function pageSysRole(

@@ -186,7 +186,13 @@ const TableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <PageContainer
+      ghost
+      header={{
+        title: '',
+        breadcrumb: {},
+      }}
+    >
       {messageContextHolder}
       {modalContextHolder}
       <ProTable<API.SysRecordRepair, API.R<API.SysRecordRepair>>

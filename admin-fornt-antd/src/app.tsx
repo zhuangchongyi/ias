@@ -12,13 +12,6 @@ const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
 const whitePaths = ['/FaceCheckIn'];
 
-type AppInitialState = {
-  loading?: boolean;
-  settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
-  permissionList?: string[];
-};
-
 const getFetchUserInfo = async () => {
   try {
     const { data } = await getCurrentUser({
@@ -39,7 +32,7 @@ export async function getInitialState(): Promise<AppInitialState> {
   const pathname = location.pathname;
   const token = localStorage.getItem(TOKEN_KEY);
   const settingsConfig = defaultSettings as Partial<LayoutSettings>;
-  console.log('getInitialState', isMobile(), pathname);
+  console.log('getInitialState isMobile=', isMobile(), pathname);
 
   // 白名单放行
   if (whitePaths.includes(pathname)) {
@@ -75,7 +68,6 @@ export async function getInitialState(): Promise<AppInitialState> {
       return {
         settings: settingsConfig,
         currentUser,
-        permissionList: currentUser.permissionList || [],
       };
     } catch (error) {
       console.error('获取用户信息失败:', error);
@@ -107,11 +99,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       content: initialState?.currentUser?.nickname,
     },
     footerRender: () => <Footer />,
-    onPageChange: () => {
-      const { location } = history;
+    onPageChange: (location: Location) => {
       const pathname = location.pathname;
       const token = localStorage.getItem(TOKEN_KEY);
-      console.log('onPageChange', isMobile(), pathname);
+      console.log('onPageChange isMobile=', isMobile(), pathname);
+
       // 白名单放行
       if (whitePaths.includes(pathname)) {
         history.push(loginPath);
